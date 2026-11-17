@@ -1,0 +1,1397 @@
+/* ==========================================================================
+   PAW Dark Mode - IBM Planning Analytics Workspace Koyu Tema (v3)
+   ========================================================================== */
+
+/* 1. Anti-FOUC (Beyaz Parlama Önleyici) İlk Yükleme Kuralı */
+html:not([data-paw-dark="false"]),
+html:not([data-paw-dark="false"]) body {
+  background-color: #0d0f12 !important;
+  color: #f3f4f6 !important;
+  color-scheme: dark !important;
+}
+
+/* 2. Tema Paletleri (CSS Custom Properties — Net Katman Ayrımı) */
+html[data-paw-dark="true"],
+html[data-paw-dark="true"][data-paw-palette="oled"] {
+  --paw-bg-primary: #0d0f12;
+  --paw-bg-secondary: #161920;
+  --paw-bg-tertiary: #212631;
+  --paw-bg-elevated: #222733;
+  --paw-bg-hover: #2b3242;
+  --paw-bg-selected: #1d3b66;
+  --paw-bg-readonly: #14171f;
+  --paw-bg-input: #1e222b;
+  --paw-border: #232832;
+  --paw-border-strong: #313846;
+  --paw-text-primary: #f3f4f6;
+  --paw-text-secondary: #c2c7d0;
+  --paw-text-muted: #8b92a0;
+  --paw-accent: #5899ff;
+  --paw-accent-hover: #7db1ff;
+  --paw-scrollbar-track: #0d0f12;
+  --paw-scrollbar-thumb: #2e3440;
+  --paw-scrollbar-thumb-hover: #434c5e;
+  --paw-shadow: rgba(0, 0, 0, 0.78);
+}
+
+html[data-paw-dark="true"][data-paw-palette="carbon"] {
+  --paw-bg-primary: #141517;
+  --paw-bg-secondary: #1e2024;
+  --paw-bg-tertiary: #282a30;
+  --paw-bg-elevated: #31343c;
+  --paw-bg-hover: #3c404a;
+  --paw-bg-selected: #1d365d;
+  --paw-bg-readonly: #1a1c21;
+  --paw-bg-input: #22252b;
+  --paw-border: #363942;
+  --paw-border-strong: #505460;
+  --paw-text-primary: #f4f4f6;
+  --paw-text-secondary: #c8ccd4;
+  --paw-text-muted: #9095a0;
+  --paw-accent: #5294ff;
+  --paw-accent-hover: #7bb0ff;
+  --paw-scrollbar-track: #141517;
+  --paw-scrollbar-thumb: #393c44;
+  --paw-scrollbar-thumb-hover: #525662;
+  --paw-shadow: rgba(0, 0, 0, 0.68);
+}
+
+html[data-paw-dark="true"][data-paw-palette="midnight"] {
+  --paw-bg-primary: #0b0f17;
+  --paw-bg-secondary: #131a26;
+  --paw-bg-tertiary: #1c2536;
+  --paw-bg-elevated: #232f44;
+  --paw-bg-hover: #2c3b54;
+  --paw-bg-selected: #1e3a5f;
+  --paw-bg-readonly: #141c2b;
+  --paw-bg-input: #172030;
+  --paw-border: #2a3750;
+  --paw-border-strong: #415478;
+  --paw-text-primary: #e2e8f0;
+  --paw-text-secondary: #a2b0c4;
+  --paw-text-muted: #6c7d96;
+  --paw-accent: #38bdf8;
+  --paw-accent-hover: #7dd3fc;
+  --paw-scrollbar-track: #0b0f17;
+  --paw-scrollbar-thumb: #2a3750;
+  --paw-scrollbar-thumb-hover: #415478;
+  --paw-shadow: rgba(2, 6, 18, 0.78);
+}
+
+/* 3. Göz Konforu ve Tam Ters Çevirme (Invert) Modu Filtreleri */
+html[data-paw-dark="true"] {
+  --paw-brightness: 1;
+  --paw-contrast: 1;
+  --paw-warmth: 0;
+  color-scheme: dark !important;
+}
+
+html[data-paw-dark="true"][data-paw-filtered="true"]:not([data-paw-mode="invert"]) {
+  filter: brightness(var(--paw-brightness)) contrast(var(--paw-contrast)) sepia(var(--paw-warmth)) !important;
+}
+
+/* Tam Ters Çevirme Modu (Yalnızca en üst pencerede uygulanır) */
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] {
+  filter: invert(0.93) hue-rotate(180deg) brightness(var(--paw-brightness)) contrast(var(--paw-contrast)) sepia(var(--paw-warmth)) !important;
+  background-color: #ffffff !important;
+}
+
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] img,
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] video,
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] picture,
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] svg.pa-logo,
+html[data-paw-dark="true"][data-paw-mode="invert"][data-paw-frame="top"] [style*="background-image"] {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Hibrit Mod: Canvas üzerinde çizilen grid ve grafikler için akıllı ters çevirme */
+html[data-paw-dark="true"][data-paw-mode="hybrid"] canvas {
+  filter: invert(0.91) hue-rotate(180deg) contrast(1.18) brightness(1.06) !important;
+}
+
+/* ==========================================================================
+   Smart ve Hybrid Modlar: Tokenlar, Dinamik Computed Kancalar ve Bileşenler
+   ========================================================================== */
+
+/* 4. IBM Carbon Design System v10 (--bx-*) & v11 (--cds-*) + PAW HSL Tokenları */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) :root,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) body,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-carbon-theme],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .carbon-theme-white,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .carbon-theme-g10,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .carbonGrey10,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ui-shell-g100,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--white,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--g10,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--g90,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--g100,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--white,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--g10 {
+  /* PAW Dashboard / Shell Tema Değişkenleri */
+  --pa-dashboard-theme-background-color: var(--paw-bg-primary) !important;
+  --pa-dashboard-theme-board-background-color: var(--paw-bg-primary) !important;
+  --pa-dashboard-theme-widget-background-color: var(--paw-bg-secondary) !important;
+  --pa-dashboard-theme-widget-separator-color: var(--paw-border) !important;
+  --pa-dashboard-theme-control-background-color: var(--paw-bg-elevated) !important;
+  --pa-dashboard-theme-control-text-color: var(--paw-text-primary) !important;
+  --pa-dashboard-theme-control-subtle-text-color: var(--paw-text-secondary) !important;
+  --pa-dashboard-theme-control-hover-background-color: var(--paw-bg-hover) !important;
+
+  /* pa-glass / ba-common HSL Değişkenleri */
+  --ui-01-h: 220 !important;
+  --ui-01-s: 18% !important;
+  --ui-01-l: 11% !important;
+  --ui-02-h: 220 !important;
+  --ui-02-s: 19% !important;
+  --ui-02-l: 16% !important;
+  --ui-03-h: 220 !important;
+  --ui-03-s: 16% !important;
+  --ui-03-l: 20% !important;
+  --ui-04: var(--paw-border-strong) !important;
+  --icon-01-h: 220 !important;
+  --icon-01-s: 14% !important;
+  --icon-01-l: 95% !important;
+  --icon-02-h: 220 !important;
+  --icon-02-s: 12% !important;
+  --icon-02-l: 78% !important;
+  --hover-ui-h: 222 !important;
+  --hover-ui-s: 19% !important;
+  --hover-ui-l: 24% !important;
+  --hover-selected-ui-h: 215 !important;
+  --hover-selected-ui-s: 55% !important;
+  --hover-selected-ui-l: 30% !important;
+  --active-ui-h: 215 !important;
+  --active-ui-s: 55% !important;
+  --active-ui-l: 26% !important;
+  --disabled-02-h: 220 !important;
+  --disabled-02-s: 10% !important;
+  --disabled-02-l: 48% !important;
+  --cds-background: var(--paw-bg-primary) !important;
+  --cds-background-hover: var(--paw-bg-hover) !important;
+  --cds-background-active: var(--paw-bg-tertiary) !important;
+  --cds-background-selected: var(--paw-bg-selected) !important;
+  --cds-background-selected-hover: var(--paw-bg-hover) !important;
+  --cds-background-inverse: var(--paw-bg-tertiary) !important;
+  --cds-layer: var(--paw-bg-secondary) !important;
+  --cds-layer-01: var(--paw-bg-secondary) !important;
+  --cds-layer-02: var(--paw-bg-tertiary) !important;
+  --cds-layer-03: var(--paw-bg-hover) !important;
+  --cds-layer-hover: var(--paw-bg-hover) !important;
+  --cds-layer-hover-01: var(--paw-bg-hover) !important;
+  --cds-layer-hover-02: var(--paw-bg-hover) !important;
+  --cds-layer-hover-03: var(--paw-bg-hover) !important;
+  --cds-layer-active: var(--paw-bg-tertiary) !important;
+  --cds-layer-active-01: var(--paw-bg-tertiary) !important;
+  --cds-layer-active-02: var(--paw-bg-hover) !important;
+  --cds-layer-selected: var(--paw-bg-selected) !important;
+  --cds-layer-selected-01: var(--paw-bg-selected) !important;
+  --cds-layer-selected-02: var(--paw-bg-selected) !important;
+  --cds-layer-selected-hover: var(--paw-bg-hover) !important;
+  --cds-layer-accent: var(--paw-bg-tertiary) !important;
+  --cds-layer-accent-01: var(--paw-bg-tertiary) !important;
+  --cds-layer-accent-02: var(--paw-bg-hover) !important;
+  --cds-field: var(--paw-bg-input) !important;
+  --cds-field-01: var(--paw-bg-input) !important;
+  --cds-field-02: var(--paw-bg-tertiary) !important;
+  --cds-field-hover: var(--paw-bg-hover) !important;
+  --cds-field-hover-01: var(--paw-bg-hover) !important;
+  --cds-field-hover-02: var(--paw-bg-hover) !important;
+  --cds-text-primary: var(--paw-text-primary) !important;
+  --cds-text-secondary: var(--paw-text-secondary) !important;
+  --cds-text-placeholder: var(--paw-text-muted) !important;
+  --cds-text-helper: var(--paw-text-muted) !important;
+  --cds-text-on-color: #ffffff !important;
+  --cds-text-disabled: var(--paw-text-muted) !important;
+  --cds-icon-primary: var(--paw-text-primary) !important;
+  --cds-icon-secondary: var(--paw-text-secondary) !important;
+  --cds-icon-disabled: var(--paw-text-muted) !important;
+  --cds-border-subtle: var(--paw-border) !important;
+  --cds-border-subtle-00: var(--paw-border) !important;
+  --cds-border-subtle-01: var(--paw-border) !important;
+  --cds-border-subtle-02: var(--paw-border) !important;
+  --cds-border-subtle-03: var(--paw-border) !important;
+  --cds-border-strong: var(--paw-border-strong) !important;
+  --cds-border-strong-01: var(--paw-border-strong) !important;
+  --cds-border-strong-02: var(--paw-border-strong) !important;
+  --cds-border-interactive: var(--paw-accent) !important;
+  --cds-border-tile: var(--paw-border) !important;
+  --cds-link-primary: var(--paw-accent) !important;
+  --cds-link-primary-hover: var(--paw-accent-hover) !important;
+  --cds-interactive: var(--paw-accent) !important;
+  --cds-focus: var(--paw-accent) !important;
+  --cds-skeleton-background: var(--paw-bg-tertiary) !important;
+  --cds-skeleton-element: var(--paw-bg-hover) !important;
+  --cds-overlay: rgba(0, 0, 0, 0.72) !important;
+
+  /* Carbon v10 */
+  --cds-ui-background: var(--paw-bg-primary) !important;
+  --cds-ui-01: var(--paw-bg-secondary) !important;
+  --cds-ui-02: var(--paw-bg-tertiary) !important;
+  --cds-ui-03: var(--paw-bg-hover) !important;
+  --cds-ui-04: var(--paw-border) !important;
+  --cds-ui-05: var(--paw-text-primary) !important;
+  --cds-text-01: var(--paw-text-primary) !important;
+  --cds-text-02: var(--paw-text-secondary) !important;
+  --cds-text-03: var(--paw-text-muted) !important;
+  --cds-text-04: #ffffff !important;
+  --cds-text-05: var(--paw-text-muted) !important;
+  --cds-icon-01: var(--paw-text-primary) !important;
+  --cds-icon-02: var(--paw-text-secondary) !important;
+  --cds-icon-03: var(--paw-text-muted) !important;
+  --cds-inverse-01: var(--paw-bg-primary) !important;
+  --cds-icon-inverse: var(--paw-bg-primary) !important;
+  --cds-text-inverse: var(--paw-bg-primary) !important;
+  --cds-interactive-01: #0f62fe !important;
+  --cds-interactive-04: var(--paw-accent) !important;
+  --cds-hover-ui: var(--paw-bg-hover) !important;
+  --cds-hover-row: var(--paw-bg-hover) !important;
+  --cds-hover-selected-ui: var(--paw-bg-hover) !important;
+  --cds-selected-ui: var(--paw-bg-selected) !important;
+
+  --bx-ui-background: var(--paw-bg-primary) !important;
+  --bx-ui-01: var(--paw-bg-secondary) !important;
+  --bx-ui-02: var(--paw-bg-tertiary) !important;
+  --bx-ui-03: var(--paw-bg-hover) !important;
+  --bx-ui-04: var(--paw-border) !important;
+  --bx-hover-ui: var(--paw-bg-hover) !important;
+  --bx-interactive-01: #0f62fe !important;
+  --bx-inverse-01: var(--paw-bg-primary) !important;
+  --bx-text-01: var(--paw-text-primary) !important;
+  --bx-text-02: var(--paw-text-secondary) !important;
+  --bx-text-03: var(--paw-text-muted) !important;
+  --bx-icon-01: var(--paw-text-primary) !important;
+  --bx-icon-02: var(--paw-text-secondary) !important;
+}
+
+/* 5. Kök Yüzeyler (Yalnızca ana kök konteynerler — şeffaf iç sarmalayıcıları bozmaz) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) body,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) #app,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) #root,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .app-root,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) main {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+/* 6. Computed Style Motoru Kancaları (content.js yalnızca gerçek açık renkli öğelere atar) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-bg="1"] {
+  background-color: var(--paw-bg-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-bg="2"] {
+  background-color: var(--paw-bg-secondary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-bg="3"] {
+  background-color: var(--paw-bg-tertiary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-bg="active"] {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-hover-bg="1"] {
+  background-color: var(--paw-bg-hover) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-bg="transparent"] {
+  background-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-text="1"] {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-text="2"] {
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-text="link"] {
+  color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-border="1"] {
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-svg-fill="light"] {
+  fill: var(--paw-text-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-svg-stroke="light"] {
+  stroke: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [data-paw-fill="transparent"] {
+  fill: transparent !important;
+}
+
+/* 7. Araç Çubukları, Sol Dikey Menü (Rail), Butonlar, Hover Koruması ve İkon Görünürlüğü */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--side-nav,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--side-nav {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+/* Buton ve etkileşimli öğe renkleri + belirgin kutucuk sınırları */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tab"] {
+  color: var(--paw-text-primary);
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) > *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) span,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) div,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) [data-paw-text],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) > *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) span,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) div,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) [data-paw-text] {
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) svg use,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--primary:where(:not(.cds--btn--icon-only):not(.bx--btn--icon-only)) svg use {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Üst Uygulama Çubuğu, Yan Panel (.toolpane / aside) ve İkon-Only (.bx--btn--icon-only) butonları koyu kalır */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header .bx--btn--primary {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header .bx--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header .cds--btn--primary *,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header .bx--btn--primary * {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.bx--btn--icon-only,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.cds--btn--icon-only,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--icon-only,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--icon-only,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .cds--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .bx--btn--primary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .cds--btn--primary {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.bx--btn--icon-only svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.cds--btn--icon-only svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--icon-only svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--icon-only svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .bx--btn--primary svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .cds--btn--primary svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .bx--btn--primary svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .cds--btn--primary svg {
+  fill: currentColor !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--header .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="banner"] .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-label="Application Bar"] .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="appbar"] .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--header .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav .cds--btn--primary:not(:disabled):hover {
+  background-color: var(--paw-bg-hover) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.bx--btn--icon-only:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.cds--btn--icon-only:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--icon-only:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--icon-only:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane .cds--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .bx--btn--primary:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside .cds--btn--primary:not(:disabled):hover {
+  background-color: var(--paw-bg-hover) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--secondary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--secondary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--tertiary,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--tertiary {
+  background-color: var(--paw-bg-elevated) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.buttonWithText,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.toolbarButtonWithText {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+  border-color: transparent !important;
+}
+
+/* Evrensel Hover Beyazlama Koruması (Üzerine gelince arka plan asla beyaza dönmez) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button:not(.cds--btn--primary):not(.bx--btn--primary):not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tab"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="menuitem"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="option"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="treeitem"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--btn--ghost:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--btn--ghost:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--overflow-menu:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--overflow-menu:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tabs__nav-link:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--tabs__nav-link:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tabs--scrollable__nav-link:hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+}
+
+/* Aktif / Seçili Araç Çubuğu ve Rail Butonları */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button[aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button[aria-pressed="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tab"][aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"][aria-pressed="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"][aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--side-nav__link--current,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--side-nav__link--current,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button[class*="active"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button[class*="selected"] {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+  border-color: var(--paw-accent) !important;
+}
+
+/* Tüm buton, sekme, araç çubuğu ve kart ikonlarının görünürlüğü (fill="none" korunur) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"] svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tab"] svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="menuitem"] svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="treeitem"] svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) header svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) nav svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) aside svg {
+  color: var(--paw-text-primary);
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button svg:not([fill="none"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button svg use,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"] svg:not([fill="none"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="button"] svg use,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tab"] svg:not([fill="none"]) {
+  fill: currentColor;
+}
+
+/* 8. Cube Viewer, Exploration Grid, TreeGrid & Tablolar */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) th,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="columnheader"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="rowheader"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="ag-header"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="header-cell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="row-header"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="col-header"] {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) td,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="gridcell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="cell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="ag-cell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="grid-cell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="data-cell"] {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="readonly"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="read-only"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="consolidated"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [aria-readonly="true"] {
+  background-color: var(--paw-bg-readonly) !important;
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) tr:hover > td,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="row"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="gridcell"]:hover {
+  background-color: var(--paw-bg-hover) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="gridcell"][aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="row"][aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="treeitem"][aria-selected="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="selected-cell"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [class*="ag-cell-focus"] {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+}
+
+/* 9. Carbon Modallar, Açılır Menüler, Bildirimler ve Form Girdileri */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="dialog"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="menu"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="listbox"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="tooltip"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--modal-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--modal-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--list-box__menu,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--list-box__menu,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--menu {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+  box-shadow: 0 8px 24px var(--paw-shadow) !important;
+}
+
+/* Popover & Açılır Overflow Menüler (View Options dahil; yalnızca renk ve kenarlık, orijinal geometri) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--popover-content,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--popover-content,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--overflow-menu-options,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--overflow-menu-options,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--toolbar [role="menu"] {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+  box-shadow: 0 8px 24px var(--paw-shadow) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--list-box__menu-item:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--list-box__menu-item:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--menu-item:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--overflow-menu-options__btn:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--overflow-menu-options__btn:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="menuitem"]:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [role="option"]:hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--toast-notification,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--toast-notification,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--inline-notification,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--inline-notification {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--loading-overlay,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--loading-overlay {
+  background-color: rgba(15, 15, 18, 0.78) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) textarea,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) select,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) [contenteditable="true"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--text-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--text-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--search-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--search-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--select-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--select-input,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--dropdown,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--dropdown,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--list-box__field,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--list-box__field {
+  background-color: var(--paw-bg-input) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) input::placeholder,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) textarea::placeholder {
+  color: var(--paw-text-muted) !important;
+}
+
+/* Carbon Onay Kutuları (Checkbox) & Radyo Düğmeleri (View Options dahil) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) input[type="checkbox"],
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) input[type="radio"] {
+  accent-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox-label,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox-label {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox-label::before,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox-label::before {
+  background-color: var(--paw-bg-input) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox:checked + .bx--checkbox-label::before,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox:checked + .cds--checkbox-label::before,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox-label[data-contained-checkbox-state="true"]::before,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox-label[data-contained-checkbox-state="true"]::before {
+  background-color: var(--paw-accent) !important;
+  border-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox:checked + .bx--checkbox-label::after,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox:checked + .cds--checkbox-label::after,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--checkbox-label::after,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cds--checkbox-label::after {
+  border-left-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) a {
+  color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) a:hover {
+  color: var(--paw-accent-hover) !important;
+}
+
+/* 10. Kod Editörleri (CodeMirror 6, Monaco, Ace & PAW TI Proses / Rules Editörleri) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) ::selection {
+  background-color: rgba(58, 92, 148, 0.52) !important;
+  color: #ffffff !important;
+}
+
+/* Monaco Editör */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor-background,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .margin,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .inputarea.ime-input {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .view-overlays,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .view-lines,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .view-line,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .margin-view-overlays {
+  background-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .selected-text {
+  background-color: rgba(52, 78, 122, 0.38) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .focused .selected-text {
+  background-color: rgba(58, 92, 148, 0.50) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .view-overlays .current-line {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: none !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .margin-view-overlays .current-line-margin {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .cursors-layer .cursor {
+  background-color: #7db1ff !important;
+  border-color: #7db1ff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .mtk1 {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .line-numbers {
+  color: var(--paw-text-muted) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .monaco-editor .line-numbers.active-line-number {
+  color: #e2e8f0 !important;
+  font-weight: 600 !important;
+}
+
+/* CodeMirror 6 (Canlı PAW TI Prosesleri ve Cube Rules Editörü) */
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-process-editor,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-process-editor-body,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-process-editor-script-container,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-process-editor-script-container__toolbar,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor-header,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor-header-cm6,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor-script-container,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor-script-container__toolbar {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-process-editor-script-container__toolbar .selectedState,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-rules-editor-script-container__toolbar .selectedState {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+  border-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+  border: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor:focus-within {
+  border: 1px solid rgba(88, 153, 255, 0.55) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-gutters {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-muted) !important;
+  border-right: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-activeLineGutter {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  color: #e2e8f0 !important;
+  font-weight: 600 !important;
+}
+
+/* ÖNEMLİ: CM6 iç katmanları şeffaf kalmalı ki altındaki yumuşak slate-mavi seçim katmanı (.cm-selectionLayer) görünsün */
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-scroller,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-content,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-line,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-selectionLayer,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-cursorLayer {
+  background-color: transparent !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-activeLine {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-selectionLayer .cm-selectionBackground {
+  background-color: rgba(52, 78, 122, 0.35) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor.cm-focused .cm-selectionBackground {
+  background-color: rgba(58, 92, 148, 0.48) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor .cm-cursor,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .cm-editor.cm-focused .cm-cursor {
+  border-left: 2px solid #8ab4f8 !important;
+}
+
+/* Ace / CodeMirror 5 Yedek Seçim Kuralları */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ace_editor,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .CodeMirror {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ace_selection,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .CodeMirror-selected {
+  background-color: rgba(58, 92, 148, 0.48) !important;
+}
+
+/* 11. Özel Koyu Kaydırma Çubukları (Scrollbars) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) ::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) ::-webkit-scrollbar-track {
+  background: var(--paw-scrollbar-track) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) ::-webkit-scrollbar-thumb {
+  background: var(--paw-scrollbar-thumb) !important;
+  border-radius: 5px !important;
+  border: 2px solid var(--paw-scrollbar-track) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) ::-webkit-scrollbar-thumb:hover {
+  background: var(--paw-scrollbar-thumb-hover) !important;
+}
+
+/* ==========================================================================
+   12. Canlı PAW Bileşenleri (Home, Modeling Araç Çubuğu, Cube Viewer & Canvas Grid)
+   ========================================================================== */
+
+/* 12a. Home Sayfası (?perspective=pa-home) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .contentnav ~ div,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .contentnav-content,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tab-content,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-wrapper,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .tileslist-tiles {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tabs--scrollable__nav {
+  background-color: var(--paw-bg-primary) !important;
+  border-bottom-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tabs--scrollable__nav-link {
+  color: var(--paw-text-secondary) !important;
+  border-bottom-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tabs--scrollable__nav-item--selected .bx--tabs--scrollable__nav-link {
+  color: var(--paw-text-primary) !important;
+  border-bottom-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-logo {
+  background-color: var(--paw-bg-tertiary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-content {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile:hover .pa-plan-home-tile-content {
+  background-color: var(--paw-bg-tertiary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-description,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-description.bx--front-line,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-footer {
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-title-btn {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-plan-home-tile-title-btn:hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-tile-wrapper .pa-tile,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tile--light {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-tile-wrapper .pa-tile:hover,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .bx--tile--light:hover {
+  background-color: var(--paw-bg-tertiary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .tile-overflow-menu .bx--overflow-menu,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .tile-overflow-menu svg {
+  color: var(--paw-text-primary) !important;
+  fill: var(--paw-text-primary) !important;
+}
+
+/* 12b. Modeling Üst Araç Çubuğu & Sol Dikey Ray (?perspective=modeling) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar .leading,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane.toolpaneTop,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane.toolpaneLeft {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button.modelingSaveButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button.comboBox {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button.modelingSaveButton:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar button.comboBox:hover {
+  background-color: var(--paw-bg-hover) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .choreButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .rollbackButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .cubeButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .processButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .newWorkbenchButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .driveButton,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .dimensionButton {
+  border-color: transparent !important;
+}
+
+/* Harici .svg <img> ikonlarını koyu temada parlak ve net görünür yap */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolpane img.bx--btn__icon:not(.pa-plan-home-tile-logo--loaded),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar img.bx--btn__icon:not(.pa-plan-home-tile-logo--loaded),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button.bx--btn--icon-only img.bx--btn__icon:not(.pa-plan-home-tile-logo--loaded) {
+  filter: invert(0.92) brightness(1.15) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-actionbar svg use {
+  fill: var(--paw-text-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+/* Boş Durum İllüstrasyonu (Forklift data:image/svg+xml — Arka plan siyah kare olmadan tamamen şeffaf) */
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-empty-state-container,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-empty-state-container div,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-empty-state-image-container {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) img.pa-empty-state-image {
+  filter: invert(1) hue-rotate(180deg) brightness(1.05) !important;
+  mix-blend-mode: lighten !important;
+  background-color: transparent !important;
+}
+
+/* 12c. Cube Viewer Bileşeni, Görünüm Araç Çubuğu ve HTML5 <canvas> Grid */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .paWidgetContainer,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .tm1mdvWidget,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .tm1mdvWidgetContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widgetContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .fill-color1,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .CanvasGrid,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .canvasWrapper {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .modeling-widget-toolbar-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar {
+  background-color: var(--paw-bg-secondary) !important;
+  border-color: var(--paw-border) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button.buttonWithText {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button svg,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button svg use {
+  fill: var(--paw-text-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar .toolbarItem:hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button:hover {
+  background-color: var(--paw-bg-hover) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar button.toggleButton.selected {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+  border-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .widget_toolbar .toolbarSeparatorItem {
+  border-left-color: var(--paw-border-strong) !important;
+}
+
+/* Boyut Seçici Kutucukları (.pa--dimensionoverview) — Orijinal PAW Yerleşimi, Yalnızca Koyu Renkler */
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview {
+  background-color: var(--paw-bg-secondary) !important;
+  border-bottom: 1px solid var(--paw-border) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--content .pa--dimensionoverview--rowcolumn-wrapper {
+  border-top: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--container.row {
+  border-right: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensiontile {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensionDropdown,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensionDropdown.CustomDropDown {
+  background-color: #1e232d !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .bx--dropdown.bx--list-box,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .cds--dropdown.cds--list-box {
+  background-color: #1e232d !important;
+  border: none !important;
+  border-bottom: 1px solid #3c4558 !important;
+  border-radius: 0 !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .bx--dropdown.bx--list-box:hover,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .bx--list-box:hover,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview button.bx--list-box__field:hover {
+  background-color: var(--paw-bg-hover) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview button.bx--list-box__field,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview button.cds--list-box__field {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensionDropdown.CustomDropDown .bx--list-box__wrapper > label,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensiontile .bx--label,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensiontile .cds--label {
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensionLabel,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .bx--list-box__label {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensiontile-pa-overflowmenu .pac--overflowMenu button {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensiontile-pa-overflowmenu .pac--overflowMenu button:hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar .bx--label {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar button {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar button:hover {
+  background-color: var(--paw-bg-hover) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--container-icon svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--dimensionIcon svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .bx--list-box__menu-icon svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .cds--list-box__menu-icon svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar button svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar button svg path,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview button svg {
+  fill: currentColor !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar .bx--toolbar-action[disabled] svg,
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview .pa--dimensionoverview--toolbar .bx--toolbar-action[disabled] svg path {
+  fill: var(--paw-text-muted) !important;
+  color: var(--paw-text-muted) !important;
+}
+
+html[data-paw-dark="true"][data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa--dimensionoverview--container-expand-btn button {
+  background-color: var(--paw-bg-elevated) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-strong) !important;
+}
+
+/* Cube Viewer & Dimension Editor HTML5 Canvas Grid: Yerel 2D boyama (göz yormayan tonlar) veya yedek CSS filtresi */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .CanvasGrid canvas:not([data-paw-canvas-native="true"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-canvas-grid-container canvas:not([data-paw-canvas-native="true"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) canvas.dataContent:not([data-paw-canvas-native="true"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) canvas[id*="CanvasGrid"]:not([data-paw-canvas-native="true"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) canvas[id*="canvasGrid"]:not([data-paw-canvas-native="true"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) canvas[id*="TM1MDV"]:not([data-paw-canvas-native="true"]) {
+  filter: invert(0.89) hue-rotate(180deg) contrast(1.05) brightness(1.02) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) canvas[data-paw-canvas-native="true"] {
+  filter: none !important;
+  background-color: var(--paw-bg-primary) !important;
+}
+
+/* 12e. Dimension & Attribute Editörü (Members, Attributes, Security) Tam Koyu Tema */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) div.pa-canvas-grid-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body .pa-canvas-grid-empty-state-container {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-container .pa-widget-header {
+  background-color: var(--paw-bg-secondary) !important;
+  border-bottom-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-widget-header-left-title {
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-widget-header-left-path {
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-dropDownMenu .bx--list-box {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-tabs,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-tabs .bx--tabs--scrollable {
+  background-color: var(--paw-bg-secondary) !important;
+  border-bottom-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-value-bar-container {
+  background-color: var(--paw-bg-secondary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-value-bar-container .bx--text-area__wrapper {
+  background-color: var(--paw-bg-primary) !important;
+  border-bottom-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-value-bar-container textarea,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-value-bar-container textarea:disabled {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+  -webkit-text-fill-color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-value-bar-container textarea::placeholder {
+  color: var(--paw-text-muted) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-toolbar,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-toolbar .bx--table-toolbar,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-toolbar .bx--toolbar-content,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-toolbar .alias-combo-box-div .bx--combo-box {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-toolbar .bx--text-input {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-dimension-editor-body-member-counts {
+  background-color: var(--paw-bg-secondary) !important;
+  border-top-color: var(--paw-border) !important;
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-canvas-grid-cell-editor-container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pa-canvas-grid-cell-editor-container input {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-accent) !important;
+}
+
+/* 12d. Book / Dashboard Üst Araç Çubuğu, Sayfa Sekmeleri, Dış Çerçeve & Eylem Butonu Widgetları */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockRoot,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .OnDemandToolbarSection,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .CanvasToolbarSection,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .toolbar {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .OnDemandToolbarSection .toolbar button,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .CanvasToolbarSection .toolbar button,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .ba-common-toolbar__item button {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer button.buttonWithText,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer button.toolbarButtonWithText {
+  background-color: transparent !important;
+  color: var(--paw-text-primary) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .OnDemandToolbarSection .toolbar button:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .CanvasToolbarSection .toolbar button:not(:disabled):hover,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .ba-common-toolbar__item button:not(:disabled):hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .ba-common-toolbar__item .bx--btn--ghost.selected,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer button.selected {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+  border-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .ba-common-toolbar__item .bx--btn--ghost:disabled,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer button:disabled {
+  color: var(--paw-text-muted) !important;
+  opacity: 0.48 !important;
+  background-color: transparent !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer svg.ba-common-svgIcon,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer svg.ba-common-svgIcon use,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer button svg {
+  fill: currentColor !important;
+  color: inherit !important;
+}
+
+/* Forecast İkonu (#pa-dashboard-predict_16) Parlaklık ve Renk Düzeltmesi */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) #pa-dashboard-predict_16 path:not([fill="none"]),
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) #pa-dashboard-predict_16 g:not([fill="none"]) {
+  fill: var(--paw-text-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) button[data-id="PredictPanel"] svg {
+  filter: brightness(0) invert(0.95) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .toolbarDockContainer .toolbarSeparatorLeft {
+  border-left-color: var(--paw-border-strong) !important;
+}
+
+/* Book Sayfa Alanı & L-Şekilli Dış Beyaz Çerçeve Koruması */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pageView,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .boardPageView,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .carbonGrey10 .pageViewContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pageViewContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .dashboardFrame,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .dashboardFrameCentre,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .page.pagetab,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .tabCntr,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__container,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__innerContainer,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .tabpanel,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .pageTabContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .page.pagecontainer,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .page.pagegenericPage {
+  background-color: var(--paw-bg-primary) !important;
+  color: var(--paw-text-primary) !important;
+}
+
+/* Book Sayfa Sekmeleri (Final External Satış, Internal Bütçe Aylık Giriş...) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__inner,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__list {
+  background-color: var(--paw-bg-secondary) !important;
+  border-bottom: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__item {
+  background-color: var(--paw-bg-secondary) !important;
+  color: var(--paw-text-secondary) !important;
+  border-right: 1px solid var(--paw-border) !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__item:hover:not(.is-disabled) {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+  box-shadow: 0px -2px 0 var(--paw-border-strong) inset !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__item.is-selected,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .ba-common-tabList__item[aria-selected="true"] {
+  background-color: var(--paw-bg-tertiary) !important;
+  color: #ffffff !important;
+  box-shadow: 0px -3px 0 var(--paw-accent) inset !important;
+}
+
+/* Eylem Butonu Widgetları (Hesapla vb.) */
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidget .staticContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidget .staticContent.fill-color1 {
+  background-color: var(--paw-bg-elevated) !important;
+  border: 1px solid var(--paw-border-strong) !important;
+  color: var(--paw-text-primary) !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidget:hover .staticContent,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidget .staticContent:hover {
+  background-color: var(--paw-bg-hover) !important;
+  border-color: var(--paw-accent) !important;
+  cursor: pointer !important;
+}
+
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidgetTextSpan,
+html[data-paw-dark="true"]:not([data-paw-mode="invert"]) .actionButtonWidget .note-editable {
+  color: var(--paw-text-primary) !important;
+}

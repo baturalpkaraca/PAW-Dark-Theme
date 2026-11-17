@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "PAW Dark Mode - IBM Planning Analytics Koyu Tema",
+  "version": "1.0.0",
+  "description": "IBM Planning Analytics Workspace (PAW) için göz yormayan tam siyah (Dark Mode) tema eklentisi.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.planning-analytics.cloud.ibm.com/*",
+    "*://*.planninganalytics.cloud.ibm.com/*",
+    "*://*.planninganalytics.saas.ibm.com/*",
+    "*://*.planning-analytics.saas.ibm.com/*",
+    "*://*.cloud.ibm.com/*",
+    "*://*.saas.ibm.com/*"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PAW Dark Mode Ayarları",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.planning-analytics.cloud.ibm.com/*",
+        "*://*.planninganalytics.cloud.ibm.com/*",
+        "*://*.planninganalytics.saas.ibm.com/*",
+        "*://*.planning-analytics.saas.ibm.com/*",
+        "*://*.saas.ibm.com/*",
+        "*://koctasprod.planning-analytics.cloud.ibm.com/*"
+      ],
+      "js": [
+        "canvas-theme.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true,
+      "match_about_blank": true
+    },
+    {
+      "matches": [
+        "*://*.planning-analytics.cloud.ibm.com/*",
+        "*://*.planninganalytics.cloud.ibm.com/*",
+        "*://*.planninganalytics.saas.ibm.com/*",
+        "*://*.planning-analytics.saas.ibm.com/*",
+        "*://*.saas.ibm.com/*",
+        "*://koctasprod.planning-analytics.cloud.ibm.com/*"
+      ],
+      "css": [
+        "dark-theme.css"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ]
+}

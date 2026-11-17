@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "3.0",
+  "name": "paw-oled-dark-theme",
+  "brandText": "Planning Analytics Workspace (Koyu Tema)",
+  "uiShellTheme": "dark",
+  "colors": {
+    "appbarBackground": "#0a0a0a",
+    "appbarForeground": "#f4f4f4",
+    "appbarSelectLine": "#4589ff",
+    "appbarPushButtonBackground": "#1a1a1a",
+    "navbarBackground": "#121212",
+    "navbarForeground": "#e8e8e8",
+    "navbarSelectLine": "#4589ff",
+    "navbarPushButtonBackground": "#242424",
+    "personalMenuBackground": "inherit"
+  }
+}
