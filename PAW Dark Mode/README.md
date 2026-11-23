@@ -1,6 +1,6 @@
 # PAW Dark Mode — IBM Planning Analytics Workspace Koyu Tema Eklentisi
 
-IBM Planning Analytics Workspace (`https://koctasprod.planning-analytics.cloud.ibm.com/` ve tüm `*.planning-analytics.cloud.ibm.com` adresleri) için beyaz ekran parlaklığını ortadan kaldıran, göz yormayan **Manifest V3** Chrome / Microsoft Edge koyu tema eklentisidir.
+IBM Planning Analytics Workspace için beyaz ekran parlaklığını ortadan kaldıran, göz yormayan **Manifest V3** Chrome / Microsoft Edge koyu tema eklentisidir.
 
 ---
 
@@ -22,7 +22,7 @@ IBM Planning Analytics Workspace (`https://koctasprod.planning-analytics.cloud.i
 2. Sağ üstten (Edge'de sol alttan) **Geliştirici modu (Developer mode)** anahtarını **Açık** konuma getirin.
 3. **Paketlenmemiş öğe yükle (Load unpacked)** butonuna tıklayın.
 4. Bu klasörü (`PAW Dark Mode`) seçin ve onaylayın.
-5. `https://koctasprod.planning-analytics.cloud.ibm.com/` sayfasını açın veya yenileyin — koyu tema otomatik aktif olacaktır.
+5. PAW sayfasını açın veya yenileyin — koyu tema otomatik aktif olacaktır.
 
 ---
 
