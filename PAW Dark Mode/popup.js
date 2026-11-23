@@ -3,7 +3,7 @@
 
   const DEFAULT_SETTINGS = {
     enabled: true,
-    palette: 'oled',
+    palette: 'carbon',
     mode: 'smart',
     brightness: 100,
     contrast: 100,
@@ -16,7 +16,6 @@
   const enabledToggle = document.getElementById('enabledToggle');
   const statusBadge = document.getElementById('statusBadge');
   const controlsArea = document.getElementById('controlsArea');
-  const paletteButtons = document.querySelectorAll('.palette-card');
   const brightnessRange = document.getElementById('brightnessRange');
   const contrastRange = document.getElementById('contrastRange');
   const warmthRange = document.getElementById('warmthRange');
@@ -40,16 +39,12 @@
   }
 
   function renderUI(settings) {
-    currentSettings = { ...DEFAULT_SETTINGS, ...settings };
+    currentSettings = { ...DEFAULT_SETTINGS, ...settings, palette: 'carbon' };
 
     enabledToggle.checked = Boolean(currentSettings.enabled);
     statusBadge.textContent = currentSettings.enabled ? 'Aktif' : 'Pasif';
     statusBadge.classList.toggle('active', Boolean(currentSettings.enabled));
     controlsArea.classList.toggle('disabled', !currentSettings.enabled);
-
-    paletteButtons.forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.palette === currentSettings.palette);
-    });
 
     brightnessRange.value = currentSettings.brightness;
     contrastRange.value = currentSettings.contrast;
@@ -61,7 +56,7 @@
   }
 
   function saveAndBroadcast(partialUpdate) {
-    currentSettings = { ...currentSettings, ...partialUpdate, mode: 'smart' };
+    currentSettings = { ...currentSettings, ...partialUpdate, mode: 'smart', palette: 'carbon' };
     renderUI(currentSettings);
 
     const storageArea = chrome.storage.sync || chrome.storage.local;
@@ -111,21 +106,33 @@
         saveAndBroadcast({ enabled: true });
       }
 
-      await chrome.scripting.insertCSS({
-        target: { tabId: tab.id, allFrames: true },
-        files: ['dark-theme.css']
+      const alreadyInjected = await new Promise((resolve) => {
+        chrome.tabs.sendMessage(tab.id, { type: 'PAW_GET_STATUS' }, (resp) => {
+          if (chrome.runtime.lastError) {
+            resolve(false);
+            return;
+          }
+          resolve(Boolean(resp && resp.ok));
+        });
       });
 
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id, allFrames: true },
-        files: ['canvas-theme.js'],
-        world: 'MAIN'
-      });
+      if (!alreadyInjected) {
+        await chrome.scripting.insertCSS({
+          target: { tabId: tab.id, allFrames: true },
+          files: ['dark-theme.css']
+        });
 
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id, allFrames: true },
-        files: ['content.js']
-      });
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id, allFrames: true },
+          files: ['canvas-theme.js'],
+          world: 'MAIN'
+        });
+
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id, allFrames: true },
+          files: ['content.js']
+        });
+      }
 
       // Sayfa yenilemelerinde (F5) kalıcı olması için dinamik içerik betiği kaydet
       let persisted = false;
@@ -197,12 +204,6 @@
   // Olay Dinleyicileri
   enabledToggle.addEventListener('change', () => {
     saveAndBroadcast({ enabled: enabledToggle.checked });
-  });
-
-  paletteButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      saveAndBroadcast({ palette: btn.dataset.palette });
-    });
   });
 
   brightnessRange.addEventListener('input', () => {

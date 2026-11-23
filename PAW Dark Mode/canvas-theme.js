@@ -53,15 +53,44 @@
     transparent: [0, 0, 0, 0]
   };
 
+  const CANVAS_PALETTES = {
+    carbon: {
+      writableBg: '#141517',
+      readonlyBg: '#202226',
+      headerBg: '#282a2f',
+      border: '#30333a',
+      headerBorder: '#42464f',
+      selectedBg: '#1f3b68',
+      greenBg: '#162b21',
+      yellowBg: '#2d2615',
+      redBg: '#30191d',
+      headerText: '#dce0e6',
+      boldHeaderText: '#e6e9ef',
+      cLevelBoldText: '#b8c0cc',
+      writableText: '#e4e8ee',
+      readonlyText: '#88909c',
+      iconStroke: '#cfd4dc'
+    }
+  };
+
   const MAX_REGIONS_PER_CANVAS = 2000;
   const BOLD_FONT_RE = /\b(?:bold|bolder|semibold|demibold|[6-9]00)\b/i;
 
   function isActive() {
-    return (
-      Boolean(root) &&
-      root.getAttribute('data-paw-dark') === 'true' &&
-      root.getAttribute('data-paw-mode') !== 'invert'
-    );
+    return Boolean(root) && root.getAttribute('data-paw-dark') === 'true';
+  }
+
+  function getActivePalette() {
+    return CANVAS_PALETTES.carbon;
+  }
+
+  function colorWithAlpha(hex, a) {
+    if (a >= 0.99) return hex;
+    const clean = hex.slice(1);
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
   }
 
   function isGridCanvas(canvas) {
@@ -193,7 +222,6 @@
     }
 
     const regions = canvas.__pawRegions;
-    // Tam tuval yeniden boyandığında eski bölgeleri temizle
     if (
       canvas.width > 0 &&
       canvas.height > 0 &&
@@ -230,7 +258,7 @@
     return null;
   }
 
-  function mapFillRectColor(rgba, w, h) {
+  function mapFillRectColor(rgba, w, h, pal) {
     if (!rgba || rgba[3] < 0.05) return null;
 
     const [r, g, b, a] = rgba;
@@ -241,44 +269,54 @@
 
     if (isLine) {
       if (spread <= 25 && min >= 185) {
-        return { color: a < 0.99 ? `rgba(38, 44, 58, ${a})` : '#262c3a', regionType: null };
+        return { color: colorWithAlpha(pal.border, a), regionType: null };
       }
       return null;
     }
 
     // Seçili / vurgulanan mavi hücre
     if (b > r + 10 && min >= 180) {
-      return { color: a < 0.99 ? `rgba(29, 59, 102, ${a})` : '#1d3b66', regionType: null };
+      return { color: colorWithAlpha(pal.selectedBg, a), regionType: null };
     }
 
-    // Koşullu yeşil veri girişine açık hücre (#DFF0D8 vb.)
-    if (g > r + 6 && min >= 180) {
-      return { color: a < 0.99 ? `rgba(21, 40, 31, ${a})` : '#15281f', regionType: 'writable' };
+    // Koşullu yeşil veri girişi / hold / spreading hücresi
+    if (g > r + 6 && g >= b && min >= 180) {
+      return { color: colorWithAlpha(pal.greenBg, a), regionType: 'writable' };
+    }
+
+    // Koşullu sarı / kehribar hücresi (#fff3cd, #fcf8e3 vb.)
+    if (r >= 220 && g >= 205 && g - b >= 15 && r - b >= 20 && Math.abs(r - g) <= 35) {
+      return { color: colorWithAlpha(pal.yellowBg, a), regionType: 'writable' };
+    }
+
+    // Koşullu kırmızı / pembe hücresi (#f8d7da, #f2dede vb.)
+    if (r >= 220 && b >= 175 && r - g >= 18 && b >= g - 15) {
+      return { color: colorWithAlpha(pal.redBg, a), regionType: 'readonly' };
     }
 
     if (spread <= 22) {
       // Veri girişine açık (Writable) N-seviye hücre (#FFFFFF / #FEFEFE)
       if (min >= 250) {
-        return { color: a < 0.99 ? `rgba(26, 32, 44, ${a})` : '#1a202c', regionType: 'writable' };
+        return { color: colorWithAlpha(pal.writableBg, a), regionType: 'writable' };
       }
       // Salt-okunur / kilitli / C-seviye gölgeli hücre (#EBEBEB..#F5F5F5 veya #DCDCDC)
       if ((min >= 233 && max <= 249) || (min >= 215 && max <= 222)) {
-        return { color: a < 0.99 ? `rgba(18, 21, 28, ${a})` : '#12151c', regionType: 'readonly' };
+        return { color: colorWithAlpha(pal.readonlyBg, a), regionType: 'readonly' };
       }
       // Satır / Sütun Başlıkları (#E0E0E0)
       if (min >= 223 && max <= 232) {
-        return { color: a < 0.99 ? `rgba(32, 38, 50, ${a})` : '#202632', regionType: 'header' };
+        return { color: colorWithAlpha(pal.headerBg, a), regionType: 'header' };
       }
       // Başlık kenarlıkları (#C6C6C6..#D6D6D6)
       if (min >= 190 && max <= 214) {
-        return { color: a < 0.99 ? `rgba(46, 54, 70, ${a})` : '#2e3646', regionType: null };
+        return { color: colorWithAlpha(pal.headerBorder, a), regionType: null };
       }
     }
 
     return null;
   }
 
-  function mapStrokeColor(rgba) {
+  function mapStrokeColor(rgba, pal) {
     if (!rgba || rgba[3] < 0.05) return null;
     const [r, g, b, a] = rgba;
     const min = Math.min(r, g, b);
@@ -288,13 +326,13 @@
     if (spread > 25) return null;
 
     if (min >= 215) {
-      return a < 0.99 ? `rgba(38, 44, 58, ${a})` : '#262c3a';
+      return colorWithAlpha(pal.border, a);
     }
     if (min >= 180) {
-      return a < 0.99 ? `rgba(46, 54, 70, ${a})` : '#2e3646';
+      return colorWithAlpha(pal.headerBorder, a);
     }
     if (max <= 115) {
-      return a < 0.99 ? `rgba(184, 196, 212, ${a})` : '#b8c4d4';
+      return colorWithAlpha(pal.iconStroke, a);
     }
     return null;
   }
@@ -330,7 +368,8 @@
 
     const origFillStyle = this.fillStyle;
     const rgba = parseColor(origFillStyle);
-    const mapped = mapFillRectColor(rgba, w, h);
+    const pal = getActivePalette();
+    const mapped = mapFillRectColor(rgba, w, h, pal);
 
     if (!mapped) {
       return origFillRect.call(this, x, y, w, h);
@@ -355,7 +394,7 @@
     }
 
     const origStrokeStyle = this.strokeStyle;
-    const mapped = mapStrokeColor(parseColor(origStrokeStyle));
+    const mapped = mapStrokeColor(parseColor(origStrokeStyle), getActivePalette());
     if (!mapped) {
       return origStrokeRect.call(this, x, y, w, h);
     }
@@ -375,7 +414,7 @@
     }
 
     const origStrokeStyle = this.strokeStyle;
-    const mapped = mapStrokeColor(parseColor(origStrokeStyle));
+    const mapped = mapStrokeColor(parseColor(origStrokeStyle), getActivePalette());
     if (!mapped) {
       return origStroke.apply(this, arguments);
     }
@@ -406,13 +445,14 @@
       return origFill.apply(this, arguments);
     }
 
+    const pal = getActivePalette();
     let nextColor = null;
     if (max <= 115) {
-      nextColor = '#b8c4d4';
+      nextColor = pal.iconStroke;
     } else if (min >= 245) {
-      nextColor = '#1a202c';
+      nextColor = pal.writableBg;
     } else if (min >= 210) {
-      nextColor = '#202632';
+      nextColor = pal.headerBg;
     }
 
     if (!nextColor) {
@@ -456,6 +496,7 @@
     }
 
     markNativeCanvas(this.canvas);
+    const pal = getActivePalette();
     const isBold = BOLD_FONT_RE.test(origFont);
     const regionType = findRegionType(this, x, y);
     const isHeaderCell = max <= 45 || regionType === 'header';
@@ -463,14 +504,14 @@
     try {
       if (isHeaderCell) {
         if (isBold) {
-          this.fillStyle = '#b4c0ce';
+          this.fillStyle = pal.boldHeaderText;
         } else {
-          this.fillStyle = regionType === 'readonly' ? '#7d8899' : '#a6b3c2';
+          this.fillStyle = regionType === 'readonly' ? pal.cLevelBoldText : pal.headerText;
         }
       } else if (isBold) {
-        this.fillStyle = '#a5b3c4';
+        this.fillStyle = pal.cLevelBoldText;
       } else {
-        this.fillStyle = regionType === 'readonly' ? '#6e7b8c' : '#96a6ba';
+        this.fillStyle = regionType === 'readonly' ? pal.readonlyText : pal.writableText;
       }
 
       return maxWidth !== undefined
@@ -489,7 +530,7 @@
     }
 
     const origStrokeStyle = this.strokeStyle;
-    const mapped = mapStrokeColor(parseColor(origStrokeStyle));
+    const mapped = mapStrokeColor(parseColor(origStrokeStyle), getActivePalette());
     if (!mapped) {
       return maxWidth !== undefined
         ? origStrokeText.call(this, text, x, y, maxWidth)

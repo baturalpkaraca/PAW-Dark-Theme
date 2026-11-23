@@ -155,64 +155,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* Palette Grid */
-.palette-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-
-.palette-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 5px;
-  background: #19191d;
-  border: 1px solid #2b2b31;
-  border-radius: 6px;
-  color: #cfcfd6;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-  text-align: center;
-}
-
-.palette-card:hover {
-  background: #202026;
-  border-color: #3e3e48;
-}
-
-.palette-card.active {
-  background: rgba(69, 137, 255, 0.12);
-  border-color: #4589ff;
-  color: #ffffff;
-}
-
-.swatch {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1px solid #444;
-}
-
-.swatch-oled {
-  background: #0a0a0a;
-}
-
-.swatch-carbon {
-  background: #161616;
-}
-
-.swatch-midnight {
-  background: linear-gradient(135deg, #0b0f17 45%, #1e3a5f 100%);
-}
-
-.palette-name {
-  font-size: 10.5px;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
 /* Eye Comfort Sliders */
 .range-group {
   display: flex;

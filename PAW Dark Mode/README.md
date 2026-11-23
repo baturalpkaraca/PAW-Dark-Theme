@@ -7,14 +7,8 @@ IBM Planning Analytics Workspace (`https://koctasprod.planning-analytics.cloud.i
 ## Özellikler
 
 - **Sıfır Beyaz Parlama (Anti-FOUC):** Sayfa ve iç çerçeveler (`iframe`) yüklenmeye başlarken anında koyu arka plan uygular.
-- **3 Farklı Koyu Tema Paleti:**
-  - **Tam Siyah (OLED):** `#0a0a0a` saf siyah zemin ile maksimum göz konforu.
-  - **IBM Carbon (G100):** `#161616` resmi IBM Carbon Design System koyu paleti.
-  - **Gece Mavisi (Midnight):** `#0b0f17` düşük yansımalı koyu lacivert tonlar.
-- **3 Farklı Çalışma Modu:**
-  - **Akıllı Koyu Tema (Önerilen):** IBM Carbon (`--cds-*` / `--bx-*`) tokenlarını koyuya çevirir, Cube Viewer / Set Editor / Dimension / Monaco TI kod editörü arayüzlerini ve satır içi (`inline`) beyaz arka planları otomatik temizler (koşullu biçimlendirme renklerini korur).
-  - **Hibrit (+Tablo / Canvas Ters Çevir):** Akıllı koyu temaya ek olarak `<canvas>` üzerinde çizilen beyaz grafik ve grid bileşenlerini de karartır.
-  - **Tam Ters Çevirme (%100 Siyah Garanti):** Herhangi bir PAW güncellemesinde beyaz kalan özel bir bileşen olursa tüm arayüzü kesin olarak siyaha çevirir (görselleri ve logoları korur).
+- **IBM Carbon G100 Koyu Paleti:** `#161616` zemin, yumuşatılmış `#e8e8e8` metin ile uzun çalışma saatlerinde maksimum göz konforu.
+- **Akıllı Koyu Tema + Yerel Carbon G100 & `<canvas>` Motoru:** PAW'ın yerleşik Carbon G100 tasarım tokenlarını (`--cds-*` / `--bx-*`) etkinleştirir; Küp / Boyut HTML5 `<canvas>` tablolarını yerel olarak yeniden boyar; Cube Viewer, Set Editor, Dimension / Attribute, CodeMirror 6 TI Script / Cube Rules ve dinamik stiller dahil tüm açık zeminleri otomatik koyulaştırır (koşullu biçimlendirme ve orijinal yerleşim ölçülerini korur).
 - **Göz Konforu Ayarları:** Parlaklık (`%70 - %110`), Kontrast (`%80 - %120`) ve Mavi Işık Filtresi (`%0 - %40`) sürgüleri ile anlık ince ayar.
 - **Özel Adres Desteği:** Eklenti penceresindeki **"Mevcut Sekmeye Uygula"** butonu ile farklı bir kurum içi PAW adresinde bile tek tıkla aktif edilebilir.
 
@@ -34,8 +28,7 @@ IBM Planning Analytics Workspace (`https://koctasprod.planning-analytics.cloud.i
 
 ## Kullanım İpuçları
 
-- Tarayıcı araç çubuğundaki **PAW Dark Mode** ikonuna tıklayarak palet, çalışma modu ve göz konforu ayarlarını sayfayı yenilemeden anlık değiştirebilirsiniz.
-- Eğer küp tablolarında veya grafiklerde beyaz kalan bir alan görürseniz çalışma modunu **Hibrit** veya **Tam Ters Çevirme (%100 Siyah Garanti)** seçeneğine getirin.
+- Tarayıcı araç çubuğundaki **PAW Dark Mode** ikonuna tıklayarak palet ve göz konforu ayarlarını sayfayı yenilemeden anlık değiştirebilirsiniz.
 - Uzun çalışma saatlerinde **Mavi Işık Filtresi (Sıcaklık)** ayarını `%15 - %25` aralığına çekmek göz yorgunluğunu daha da azaltır.
 
 ---

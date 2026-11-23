@@ -8,7 +8,7 @@
 
   const DEFAULT_SETTINGS = {
     enabled: true,
-    palette: 'oled',
+    palette: 'carbon',
     mode: 'smart',
     brightness: 100,
     contrast: 100,
@@ -20,47 +20,53 @@
     button.push-button,
     button.bx--btn {
       background-color: transparent !important;
-      color: var(--paw-text-primary, #f0f0f4) !important;
+      color: var(--paw-text-primary, #e8e8e8) !important;
       border-color: transparent !important;
     }
     button.push-button:hover,
     button.bx--btn:hover {
-      background-color: var(--paw-bg-hover, #292932) !important;
+      background-color: var(--paw-bg-hover, #333333) !important;
     }
     :host(.is-checked) button.push-button,
     button.push-button[aria-pressed="true"],
     button.push-button[aria-selected="true"] {
-      background-color: var(--paw-bg-selected, #193256) !important;
+      background-color: var(--paw-bg-selected, #263449) !important;
       color: #ffffff !important;
-      border-color: var(--paw-accent, #5294ff) !important;
+      border-color: transparent !important;
     }
     svg.ba-common-svgIcon,
     svg.svgIcon,
     svg:not([fill="none"]) {
       fill: currentColor !important;
-      color: var(--paw-text-primary, #f0f0f4) !important;
+      color: var(--paw-text-primary, #e8e8e8) !important;
     }
     svg use {
       fill: currentColor !important;
     }
-    [data-paw-bg="1"] { background-color: var(--paw-bg-primary, #0d0f12) !important; }
-    [data-paw-bg="2"] { background-color: var(--paw-bg-secondary, #161920) !important; }
-    [data-paw-bg="3"] { background-color: var(--paw-bg-tertiary, #212631) !important; }
-    [data-paw-bg="active"] { background-color: var(--paw-bg-selected, #1d3b66) !important; color: #ffffff !important; }
-    [data-paw-hover-bg="1"] { background-color: var(--paw-bg-hover, #32394a) !important; color: var(--paw-text-primary, #f3f4f6) !important; }
+    [data-paw-bg="1"] { background-color: var(--paw-bg-base, #161616) !important; }
+    [data-paw-bg="2"] { background-color: var(--paw-bg-surface, #1c1c1c) !important; }
+    [data-paw-bg="3"] { background-color: var(--paw-bg-layer, #262626) !important; }
+    [data-paw-bg="active"] { background-color: var(--paw-bg-selected, #263449) !important; color: #ffffff !important; }
+    [data-paw-hover-bg="1"] { background-color: var(--paw-bg-hover, #333333) !important; color: var(--paw-text-primary, #e8e8e8) !important; }
     [data-paw-bg="transparent"] { background-color: transparent !important; }
-    [data-paw-text="1"] { color: var(--paw-text-primary, #f0f0f4) !important; }
-    [data-paw-text="2"] { color: var(--paw-text-secondary, #b4b6be) !important; }
-    [data-paw-text="link"] { color: var(--paw-accent, #5294ff) !important; }
-    [data-paw-border="1"] { border-color: var(--paw-border, #26262e) !important; }
-    [data-paw-svg-fill="light"] { fill: var(--paw-text-primary, #f0f0f4) !important; color: var(--paw-text-primary, #f0f0f4) !important; }
-    [data-paw-svg-stroke="light"] { stroke: var(--paw-text-primary, #f0f0f4) !important; }
+    [data-paw-text="1"] { color: var(--paw-text-primary, #e8e8e8) !important; }
+    [data-paw-text="2"] { color: var(--paw-text-secondary, #c6c6c6) !important; }
+    [data-paw-text="link"] { color: var(--paw-link, #78a9ff) !important; }
+    [data-paw-border="1"] { border-color: var(--paw-border-subtle, #393939) !important; }
+    [data-paw-bt="1"] { border-top-color: var(--paw-border-subtle, #393939) !important; }
+    [data-paw-br="1"] { border-right-color: var(--paw-border-subtle, #393939) !important; }
+    [data-paw-bb="1"] { border-bottom-color: var(--paw-border-subtle, #393939) !important; }
+    [data-paw-bl="1"] { border-left-color: var(--paw-border-subtle, #393939) !important; }
+    [data-paw-svg-fill="light"] { fill: var(--paw-text-primary, #e8e8e8) !important; color: var(--paw-text-primary, #e8e8e8) !important; }
+    [data-paw-svg-stroke="light"] { stroke: var(--paw-text-primary, #e8e8e8) !important; }
     [data-paw-fill="transparent"] { fill: transparent !important; }
   `;
 
   const SKIP_TAGS = new Set([
     'SCRIPT', 'STYLE', 'LINK', 'META', 'NOSCRIPT', 'BR', 'HR', 'HEAD', 'TITLE'
   ]);
+
+  const CARBON_LIGHT_CLASSES = ['carbon-theme-white', 'carbon-theme-g10', 'carbon-theme-g90'];
 
   let currentSettings = { ...DEFAULT_SETTINGS };
   let observer = null;
@@ -78,7 +84,7 @@
   let sheetScanScheduled = false;
 
   const root = document.documentElement;
-  const DARK_SCOPE = 'html[data-paw-dark="true"]:not([data-paw-mode="invert"])';
+  const DARK_SCOPE = 'html[data-paw-dark="true"]';
 
   // ---------------- Renk Yardımcıları ----------------
 
@@ -100,7 +106,13 @@
     grey: [128, 128, 128, 1],
     dimgray: [105, 105, 105, 1],
     dimgrey: [105, 105, 105, 1],
-    black: [0, 0, 0, 1]
+    black: [0, 0, 0, 1],
+    red: [255, 0, 0, 1],
+    blue: [0, 0, 255, 1],
+    darkblue: [0, 0, 139, 1],
+    navy: [0, 0, 128, 1],
+    green: [0, 128, 0, 1],
+    purple: [128, 0, 128, 1]
   };
 
   const COLOR_CACHE = new Map();
@@ -257,6 +269,59 @@
     return rgba[2] > rgba[0] + 40 && rgba[2] > 100 && rgba[0] < 40;
   }
 
+  // CodeMirror 6 açık sözdizimi renklerini VS Code Dark+ tonlarına çevirir
+  function mapCodeSyntaxColor(rgba) {
+    if (!rgba || rgba[3] < 0.25) return null;
+    const [r, g, b] = rgba;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+
+    if (max <= 70 && max - min <= 25) return '#d4d8e2';
+    if (max <= 140 && max - min <= 25) return '#9da5b4';
+    if (r >= 130 && b >= 160 && g <= 80) return '#c586c0';
+    if (r >= 200 && g <= 60 && b <= 60) return '#ff7b72';
+    if (r >= 120 && r <= 215 && g <= 80 && b <= 80) return '#ce9178';
+    if (b >= 140 && g >= 70 && r <= 70) return '#79c0ff';
+    if (b >= 190 && g <= 60 && r <= 60) return '#569cd6';
+    if (b >= 100 && b < 190 && g <= 60 && r <= 60) return '#9cdcfe';
+    if (g >= 95 && r <= 70 && b <= 70) return '#6a9955';
+    return null;
+  }
+
+  // ---------------- Carbon G100 Sınıf Senkronizasyonu ----------------
+
+  function syncCarbonThemeClass(enabled) {
+    if (!root || !root.classList || typeof root.classList.contains !== 'function') return;
+
+    if (enabled) {
+      let capturedOrig = null;
+      for (let i = 0; i < CARBON_LIGHT_CLASSES.length; i++) {
+        const cls = CARBON_LIGHT_CLASSES[i];
+        if (root.classList.contains(cls)) {
+          if (!capturedOrig) capturedOrig = cls;
+          root.classList.remove(cls);
+        }
+      }
+      if (capturedOrig && !root.hasAttribute('data-paw-orig-carbon-class')) {
+        root.setAttribute('data-paw-orig-carbon-class', capturedOrig);
+      }
+      if (!root.classList.contains('carbon-theme-g100')) {
+        root.setAttribute('data-paw-added-g100', '1');
+        root.classList.add('carbon-theme-g100');
+      }
+    } else {
+      const orig = root.getAttribute('data-paw-orig-carbon-class');
+      if (orig || root.hasAttribute('data-paw-added-g100')) {
+        root.classList.remove('carbon-theme-g100');
+        root.removeAttribute('data-paw-added-g100');
+      }
+      if (orig) {
+        root.classList.add(orig);
+        root.removeAttribute('data-paw-orig-carbon-class');
+      }
+    }
+  }
+
   // ---------------- CSSOM Stil Sayfası Tarayıcısı ----------------
 
   function splitTopLevelCommas(selectorText) {
@@ -321,14 +386,21 @@
       const rule = cssRules[i];
 
       if (rule.type === CSSRule.STYLE_RULE) {
+        if (!rule.selectorText) continue;
+
+        // PAW'ın yerleşik Carbon tema bloklarını yeniden yazma (G100 zaten etkinleştirilir)
+        if (/\.(?:carbon-theme-(?:white|g10|g90|g100)|cds--(?:white|g10|g90|g100)|bx--(?:white|g10))\b/i.test(rule.selectorText)) {
+          continue;
+        }
+
         const selector = scopeSelector(rule.selectorText);
         if (!selector) continue;
 
         const style = rule.style;
         const decls = [];
+        const isSyntaxRule = /(?:[\u037b-\u037d][0-9a-z_-]+|\.cm-(?!editor|gutters|scroller|content|line|activeLine|selectionBackground|selectionLayer|cursor)|\.CodeMirror-|\.ace_|\.mtk)/i.test(rule.selectorText);
 
-        // Arka plan kontrolü (var() ve hsla() geri dönüşlerini de çözer)
-        // Kod editörlerinin seçim/satır katmanlarına ve .pa--dimensionoverview kutularına dokunma
+        // Arka plan kontrolü
         const isProtectedComponentRule = /(?:\.cm-selectionBackground|\.cm-selectionLayer|\.cm-content|\.cm-line|\.cm-activeLine|\.cm-cursor|\.view-overlays|\.selected-text|\.ace_selection|\.CodeMirror-selected|\.pa--dimensionoverview)/i.test(rule.selectorText);
         let bgStr = style.backgroundColor;
         if (!bgStr && style.background && !/url\(|gradient\(/i.test(style.background)) {
@@ -347,19 +419,24 @@
             } else if (looksSelected && /button|tab|nav|rail|toolbar|menu/i.test(rule.selectorText)) {
               decls.push('background-color: var(--paw-bg-selected) !important;');
             } else if (minRgb >= 248) {
-              decls.push('background-color: var(--paw-bg-primary) !important;');
+              decls.push('background-color: var(--paw-bg-base) !important;');
             } else if (minRgb >= 232) {
-              decls.push('background-color: var(--paw-bg-secondary) !important;');
+              decls.push('background-color: var(--paw-bg-surface) !important;');
             } else {
-              decls.push('background-color: var(--paw-bg-tertiary) !important;');
+              decls.push('background-color: var(--paw-bg-layer) !important;');
             }
           }
         }
 
-        // Metin rengi kontrolü
+        // Metin rengi veya CM6 sözdizimi rengi kontrolü
         const colorRgba = parseCssColorValue(style.color);
         if (colorRgba) {
-          if (isNeutralDark(colorRgba, 115)) {
+          if (isSyntaxRule) {
+            const mappedSyntax = mapCodeSyntaxColor(colorRgba);
+            if (mappedSyntax) {
+              decls.push(`color: ${mappedSyntax} !important;`);
+            }
+          } else if (isNeutralDark(colorRgba, 115)) {
             const maxRgb = Math.max(colorRgba[0], colorRgba[1], colorRgba[2]);
             decls.push(
               maxRgb <= 55
@@ -372,7 +449,7 @@
         }
 
         // Kenarlık rengi kontrolü
-        if (!isProtectedComponentRule) {
+        if (!isProtectedComponentRule && !isSyntaxRule) {
           const borderTargets = [
             ['borderColor', 'border-color'],
             ['borderTopColor', 'border-top-color'],
@@ -384,7 +461,7 @@
             const [propKey, cssName] = borderTargets[b];
             const bRgba = parseCssColorValue(style[propKey]);
             if (bRgba && isNeutralLight(bRgba, 190)) {
-              decls.push(`${cssName}: var(--paw-border) !important;`);
+              decls.push(`${cssName}: var(--paw-border-subtle) !important;`);
             }
           }
         }
@@ -434,7 +511,7 @@
   }
 
   function processStyleSheets() {
-    if (!currentSettings.enabled || currentSettings.mode === 'invert') {
+    if (!currentSettings.enabled) {
       if (dynamicStyleEl) dynamicStyleEl.disabled = true;
       return;
     }
@@ -459,7 +536,6 @@
         processedSheets.add(sheet);
         inspectCssRules(rules, newLines);
       } catch (_crossOriginErr) {
-        // Çapraz kaynaklı (CORS) stil sayfaları atlanır; Computed Style motoru onları yakalar.
         processedSheets.add(sheet);
       }
     }
@@ -501,7 +577,7 @@
     hookedShadowStyles.add(style);
 
     const srObserver = new MutationObserver((mutations) => {
-      if (!currentSettings.enabled || currentSettings.mode === 'invert') return;
+      if (!currentSettings.enabled) return;
       handleMutations(mutations);
     });
     srObserver.observe(sr, {
@@ -541,7 +617,6 @@
     const shapes = svgEl.querySelectorAll('path, rect, circle, polygon, line, polyline, ellipse, use');
 
     if (isUiIconSvg(svgEl)) {
-      // İkon SVG'si: koyu fill veya stroke değerlerini parlak metin rengine çevir (fill="none" korunur)
       const rootFillAttr = svgEl.getAttribute('fill');
       if (rootFillAttr !== 'none' && rootFillAttr !== 'transparent') {
         const rootFill = parseColor(svgComp.fill);
@@ -584,7 +659,6 @@
         }
       }
     } else {
-      // Büyük SVG illüstrasyonu (ör. boş durum forklift grafiği): beyaz arka plan dikdörtgenlerini temizle
       const svgRect = svgEl.getBoundingClientRect();
       const vb = svgEl.viewBox && svgEl.viewBox.baseVal;
       const refW = (vb && vb.width) || svgRect.width || 0;
@@ -679,6 +753,90 @@
     }
   }
 
+  const EMPTY_STATE_GRAY_MAP = {
+    '#f3f3f3': '#52525c',
+    '#f4f4f4': '#52525c',
+    '#dcdcdc': '#3f3f48',
+    '#bebebe': '#2c2c34',
+    '#bdbdbd': '#2c2c34',
+    '#bcbcbc': '#2c2c34',
+    '#a4a4a4': '#363640',
+    '#a1a1a1': '#363640',
+    '#a0a0a0': '#363640',
+    '#919191': '#5e5e6b',
+    '#8c8c8c': '#5e5e6b',
+    '#8b8b8b': '#5e5e6b',
+    '#6f6f6f': '#4a4a55',
+    '#565656': '#62626f',
+    '#4d4d4d': '#464652',
+    '#3d3d3d': '#7a7a88',
+    '#353535': '#383842',
+    '#282828': '#26262f',
+    '#171717': '#18181f'
+  };
+
+  const EMPTY_STATE_GRAY_RE = /#(?:f3f3f3|f4f4f4|dcdcdc|bebebe|bdbdbd|bcbcbc|a4a4a4|a1a1a1|a0a0a0|919191|8c8c8c|8b8b8b|6f6f6f|565656|4d4d4d|3d3d3d|353535|282828|171717)\b/gi;
+
+  // data:image/svg+xml illüstrasyonlarındaki sabit beyaz arka plan dikdörtgenini temizler
+  function scrubDataUriSvgImage(imgEl) {
+    if (!imgEl || imgEl.tagName.toLowerCase() !== 'img') return;
+    const src = imgEl.getAttribute('src') || '';
+    if (!src.startsWith('data:image/svg+xml') || imgEl.hasAttribute('data-paw-orig-src')) {
+      return;
+    }
+
+    const commaIdx = src.indexOf(',');
+    if (commaIdx === -1) return;
+
+    const meta = src.slice(0, commaIdx);
+    const payload = src.slice(commaIdx + 1);
+    const isBase64 = /;base64\b/i.test(meta);
+
+    let svgText = '';
+    try {
+      svgText = isBase64 ? atob(payload) : decodeURIComponent(payload);
+    } catch (_decodeErr) {
+      return;
+    }
+
+    let nextSvg = svgText.replace(/<rect\b[^>]*>/gi, (rectTag) => {
+      const fillMatch = rectTag.match(/\bfill\s*=\s*(['"])([^'"]+)\1/i);
+      if (!fillMatch) return rectTag;
+      const fillRgba = parseColor(fillMatch[2]);
+      if (!fillRgba || !isNeutralLight(fillRgba, 215)) return rectTag;
+
+      const wMatch = rectTag.match(/\bwidth\s*=\s*(['"])([^'"]+)\1/i);
+      const hMatch = rectTag.match(/\bheight\s*=\s*(['"])([^'"]+)\1/i);
+      const isLargeDim = (m) => {
+        if (!m) return false;
+        const val = m[2].trim();
+        if (val === '100%') return true;
+        const num = parseFloat(val);
+        return !Number.isNaN(num) && num >= 200;
+      };
+      if (!isLargeDim(wMatch) || !isLargeDim(hMatch)) return rectTag;
+
+      return rectTag.replace(/\bfill\s*=\s*(['"])([^'"]+)\1/i, "fill='none'");
+    });
+
+    const isEmptyStateIllust =
+      (imgEl.classList && imgEl.classList.contains('pa-empty-state-image')) ||
+      svgText.includes('LightTheme_');
+    if (isEmptyStateIllust) {
+      nextSvg = nextSvg.replace(EMPTY_STATE_GRAY_RE, (hex) => EMPTY_STATE_GRAY_MAP[hex.toLowerCase()] || hex);
+    }
+
+    if (nextSvg === svgText) return;
+
+    try {
+      const encoded = isBase64 ? btoa(nextSvg) : encodeURIComponent(nextSvg);
+      imgEl.setAttribute('data-paw-orig-src', src);
+      imgEl.setAttribute('src', `${meta},${encoded}`);
+    } catch (_encodeErr) {
+      // btoa ASCII dışına denk gelirse orijinal görseli koru
+    }
+  }
+
   // ---------------- Computed-Style DOM Temizleyici ----------------
 
   function scrubElement(el, forceRecheck = false) {
@@ -689,16 +847,16 @@
       hookShadowRoot(el.shadowRoot);
     }
 
-    // 1. Carbon tema özniteliğini koyu (g100) yap
+    // Carbon alt tema özniteliğini g100 yap
     const carbonTheme = el.getAttribute('data-carbon-theme');
-    if (carbonTheme === 'white' || carbonTheme === 'g10') {
+    if (carbonTheme === 'white' || carbonTheme === 'g10' || carbonTheme === 'g90') {
       if (!el.hasAttribute('data-paw-orig-carbon-theme')) {
         el.setAttribute('data-paw-orig-carbon-theme', carbonTheme);
       }
       el.setAttribute('data-carbon-theme', 'g100');
     }
 
-    // 2. SVG özel işleme
+    // SVG özel işleme
     const tagLower = el.tagName.toLowerCase();
     if (tagLower === 'svg') {
       scrubSvgElement(el);
@@ -709,27 +867,45 @@
       if (parentSvg) scrubSvgElement(parentSvg);
       return;
     }
+    if (tagLower === 'img') {
+      scrubDataUriSvgImage(el);
+    }
 
-    // Dinamik class/style/state değişikliklerinde mevcut kancaları kaldırıp gerçek stili ölç
     if (forceRecheck) {
       el.removeAttribute('data-paw-bg');
       el.removeAttribute('data-paw-text');
       el.removeAttribute('data-paw-border');
+      el.removeAttribute('data-paw-bt');
+      el.removeAttribute('data-paw-br');
+      el.removeAttribute('data-paw-bb');
+      el.removeAttribute('data-paw-bl');
     }
 
     const computed = window.getComputedStyle(el);
 
-    // 3. Arka Plan Kontrolü (şeffaf öğelere, boş durumlara, kod editörlerine, birincil butonlara ve .pa--dimensionoverview içine arka plan zorlanmaz)
-    const isEmptyState = Boolean(el.closest && el.closest('.pa-empty-state-container'));
-    const isDimensionOverview = Boolean(el.closest && el.closest('.pa--dimensionoverview'));
-    const isPrimaryBtn = Boolean(
+    const isEmptyState = Boolean(
       el.closest &&
-      el.closest('.bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)')
+      el.closest('.pa-empty-state-container, .flex-layout-empty-state-container, .flex-layout-empty-state')
     );
+    const isDimensionOverview = Boolean(el.closest && el.closest('.pa--dimensionoverview'));
+
+    const primaryMatch = el.closest && el.closest(
+      'button.blue-button-class, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
+    );
+    const isInChromeBar = Boolean(
+      primaryMatch &&
+      primaryMatch.closest &&
+      primaryMatch.closest('header, nav, aside, [role="banner"], [aria-label="Application Bar"], .toolpane')
+    );
+    const isPrimaryBtn = Boolean(
+      primaryMatch &&
+      (!isInChromeBar || (primaryMatch.classList && primaryMatch.classList.contains('blue-button-class')))
+    );
+
     const isCodeEditorLayer = Boolean(
       el.closest &&
       el.closest('.cm-editor, .monaco-editor, .ace_editor, .CodeMirror') &&
-      el.matches('.cm-content, .cm-line, .cm-activeLine, .cm-selectionLayer, .cm-selectionBackground, .cm-cursorLayer, .cm-cursor, .view-overlays, .view-lines, .view-line, .selected-text, .ace_layer, .CodeMirror-lines')
+      el.matches('.cm-gutters, .cm-content, .cm-line, .cm-activeLine, .cm-selectionLayer, .cm-selectionBackground, .cm-cursorLayer, .cm-cursor, .view-overlays, .view-lines, .view-line, .selected-text, .ace_layer, .CodeMirror-lines')
     );
 
     if (isEmptyState) {
@@ -738,8 +914,12 @@
       if (el.hasAttribute('data-paw-bg')) {
         el.removeAttribute('data-paw-bg');
       }
-      if (isDimensionOverview && el.hasAttribute('data-paw-border')) {
+      if (isDimensionOverview) {
         el.removeAttribute('data-paw-border');
+        el.removeAttribute('data-paw-bt');
+        el.removeAttribute('data-paw-br');
+        el.removeAttribute('data-paw-bb');
+        el.removeAttribute('data-paw-bl');
       }
       if (isPrimaryBtn && el.hasAttribute('data-paw-text')) {
         el.removeAttribute('data-paw-text');
@@ -779,7 +959,7 @@
       }
     }
 
-    // 4. Metin Rengi Kontrolü
+    // Metin rengi kontrolü
     if (!isPrimaryBtn) {
       const colorRgba = parseColor(computed.color);
       if (isNeutralDark(colorRgba, 115)) {
@@ -790,21 +970,20 @@
       }
     }
 
-    // 5. Kenarlık Rengi Kontrolü (yalnızca görünür kenarlık varsa; .pa--dimensionoverview hariç)
-    if (!isDimensionOverview) {
+    // Kenar-bazlı görünür kenarlık rengi (tek kenar ayırıcıyı 4 kenar kutuya çevirmez)
+    if (!isDimensionOverview && !isEmptyState) {
       const borderSides = [
-        [computed.borderTopWidth, computed.borderTopStyle, computed.borderTopColor],
-        [computed.borderRightWidth, computed.borderRightStyle, computed.borderRightColor],
-        [computed.borderBottomWidth, computed.borderBottomStyle, computed.borderBottomColor],
-        [computed.borderLeftWidth, computed.borderLeftStyle, computed.borderLeftColor]
+        [computed.borderTopWidth, computed.borderTopStyle, computed.borderTopColor, 'data-paw-bt'],
+        [computed.borderRightWidth, computed.borderRightStyle, computed.borderRightColor, 'data-paw-br'],
+        [computed.borderBottomWidth, computed.borderBottomStyle, computed.borderBottomColor, 'data-paw-bb'],
+        [computed.borderLeftWidth, computed.borderLeftStyle, computed.borderLeftColor, 'data-paw-bl']
       ];
       for (let s = 0; s < borderSides.length; s++) {
-        const [bw, bs, bc] = borderSides[s];
+        const [bw, bs, bc, attr] = borderSides[s];
         if (bs !== 'none' && parseFloat(bw) > 0) {
           const bRgba = parseColor(bc);
           if (bRgba && isNeutralLight(bRgba, 190)) {
-            el.setAttribute('data-paw-border', '1');
-            break;
+            el.setAttribute(attr, '1');
           }
         }
       }
@@ -846,7 +1025,7 @@
 
   function processBatch() {
     batchScheduled = false;
-    if (!currentSettings.enabled || currentSettings.mode === 'invert') {
+    if (!currentSettings.enabled) {
       pendingQueue.clear();
       return;
     }
@@ -912,8 +1091,15 @@
       el.removeAttribute('data-paw-orig-style-stroke');
     }
 
+    const origImgs = scopeRoot.querySelectorAll('[data-paw-orig-src]');
+    for (let i = 0; i < origImgs.length; i++) {
+      const origSrc = origImgs[i].getAttribute('data-paw-orig-src');
+      if (origSrc) origImgs[i].setAttribute('src', origSrc);
+      origImgs[i].removeAttribute('data-paw-orig-src');
+    }
+
     const hooked = scopeRoot.querySelectorAll(
-      '[data-paw-bg], [data-paw-hover-bg], [data-paw-text], [data-paw-border], [data-paw-svg-fill], [data-paw-svg-stroke], [data-paw-fill], [data-paw-canvas-native]'
+      '[data-paw-bg], [data-paw-hover-bg], [data-paw-text], [data-paw-border], [data-paw-bt], [data-paw-br], [data-paw-bb], [data-paw-bl], [data-paw-svg-fill], [data-paw-svg-stroke], [data-paw-fill], [data-paw-canvas-native]'
     );
     for (let i = 0; i < hooked.length; i++) {
       const el = hooked[i];
@@ -921,6 +1107,10 @@
       el.removeAttribute('data-paw-hover-bg');
       el.removeAttribute('data-paw-text');
       el.removeAttribute('data-paw-border');
+      el.removeAttribute('data-paw-bt');
+      el.removeAttribute('data-paw-br');
+      el.removeAttribute('data-paw-bb');
+      el.removeAttribute('data-paw-bl');
       el.removeAttribute('data-paw-svg-fill');
       el.removeAttribute('data-paw-svg-stroke');
       el.removeAttribute('data-paw-fill');
@@ -937,7 +1127,6 @@
     });
 
     clearHookedAttributes(document);
-    // Kayıtlı Shadow root içindeki öznitelikleri de temizle (tam DOM taraması yapmadan)
     activeShadowRoots.forEach((sr) => {
       clearHookedAttributes(sr);
     });
@@ -945,7 +1134,7 @@
   }
 
   function handleMutations(mutations) {
-    if (!currentSettings.enabled || currentSettings.mode === 'invert') return;
+    if (!currentSettings.enabled) return;
 
     let needSheetScan = false;
 
@@ -986,7 +1175,9 @@
           enqueueSubtree(node, false);
         }
       } else if (mutation.type === 'attributes') {
-        if (mutation.target instanceof Element) {
+        if (mutation.target === root && mutation.attributeName === 'class') {
+          syncCarbonThemeClass(true);
+        } else if (mutation.target instanceof Element) {
           enqueueElement(mutation.target, true);
         }
       }
@@ -1038,13 +1229,15 @@
 
   function applySettingsToRoot(settings) {
     const prevEnabled = currentSettings.enabled;
-    const prevMode = currentSettings.mode;
-    currentSettings = { ...DEFAULT_SETTINGS, ...settings, mode: 'smart' };
+    const prevPalette = currentSettings.palette;
+    currentSettings = { ...DEFAULT_SETTINGS, ...settings, mode: 'smart', palette: 'carbon' };
 
     root.setAttribute('data-paw-frame', window.top === window.self ? 'top' : 'sub');
     root.setAttribute('data-paw-dark', currentSettings.enabled ? 'true' : 'false');
-    root.setAttribute('data-paw-palette', currentSettings.palette || 'oled');
-    root.setAttribute('data-paw-mode', currentSettings.mode || 'smart');
+    root.setAttribute('data-paw-palette', 'carbon');
+    root.setAttribute('data-paw-mode', 'smart');
+
+    syncCarbonThemeClass(Boolean(currentSettings.enabled));
 
     const brightness = Number(currentSettings.brightness ?? 100);
     const contrast = Number(currentSettings.contrast ?? 100);
@@ -1061,8 +1254,7 @@
       root.removeAttribute('data-paw-filtered');
     }
 
-    const activeSmartMode = currentSettings.enabled && currentSettings.mode !== 'invert';
-    if (activeSmartMode) {
+    if (currentSettings.enabled) {
       startObserver();
       scheduleFullScrub();
     } else {
@@ -1072,7 +1264,9 @@
 
     if (
       document.readyState !== 'loading' &&
-      (prevEnabled !== currentSettings.enabled || prevMode !== currentSettings.mode || document.querySelectorAll('canvas').length > 0)
+      (prevEnabled !== currentSettings.enabled ||
+        prevPalette !== currentSettings.palette ||
+        document.querySelectorAll('canvas').length > 0)
     ) {
       triggerCanvasGridRedraw();
     }
@@ -1100,14 +1294,16 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      if (currentSettings.enabled && currentSettings.mode !== 'invert') {
+      if (currentSettings.enabled) {
+        syncCarbonThemeClass(true);
         scheduleFullScrub();
       }
     });
   }
 
   window.addEventListener('load', () => {
-    if (currentSettings.enabled && currentSettings.mode !== 'invert') {
+    if (currentSettings.enabled) {
+      syncCarbonThemeClass(true);
       scheduleFullScrub();
     }
   });
@@ -1144,7 +1340,7 @@
   // Gerçek zamanlı hover beyazlama yakalayıcısı
   if (typeof document.addEventListener === 'function') {
     document.addEventListener('mouseover', (e) => {
-      if (!currentSettings.enabled || currentSettings.mode === 'invert') return;
+      if (!currentSettings.enabled) return;
       const target = e.target;
       if (!(target instanceof Element) || target === lastHoverTarget) return;
       lastHoverTarget = target;
@@ -1152,7 +1348,7 @@
       if (
         target.closest &&
         target.closest(
-          '.cm-editor, .monaco-editor, .ace_editor, .CodeMirror, .pa-empty-state-container, .pa--dimensionoverview, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
+          '.cm-editor, .monaco-editor, .ace_editor, .CodeMirror, .pa-empty-state-container, .flex-layout-empty-state, .pa--dimensionoverview, button.blue-button-class, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
         )
       ) {
         return;
