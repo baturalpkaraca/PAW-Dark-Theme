@@ -402,12 +402,13 @@
 
         // Arka plan kontrolü
         const isProtectedComponentRule = /(?:\.cm-selectionBackground|\.cm-selectionLayer|\.cm-content|\.cm-line|\.cm-activeLine|\.cm-cursor|\.view-overlays|\.selected-text|\.ace_selection|\.CodeMirror-selected|\.pa--dimensionoverview)/i.test(rule.selectorText);
+        const isTreeItemChildRule = /\.(?:ba-common-treeItem|ba-common-listItem)(?:[^\s,>~+]*)\s+[^\s,]/i.test(rule.selectorText);
         let bgStr = style.backgroundColor;
         if (!bgStr && style.background && !/url\(|gradient\(/i.test(style.background)) {
           bgStr = style.background;
         }
         const isHoverRule = /:(?:hover|focus|active)/i.test(rule.selectorText);
-        const bgRgba = !isProtectedComponentRule ? parseCssColorValue(bgStr) : null;
+        const bgRgba = (!isProtectedComponentRule && !isTreeItemChildRule) ? parseCssColorValue(bgStr) : null;
         if (bgRgba && !isTransparent(bgRgba)) {
           if (isLightBlueTint(bgRgba)) {
             decls.push('background-color: var(--paw-bg-selected) !important;');
@@ -888,6 +889,8 @@
       el.closest('.pa-empty-state-container, .flex-layout-empty-state-container, .flex-layout-empty-state')
     );
     const isDimensionOverview = Boolean(el.closest && el.closest('.pa--dimensionoverview'));
+    const treeAncestor = el.closest && el.closest('.ba-common-treeItem, .ba-common-listItem');
+    const isTreeItemChild = Boolean(treeAncestor && treeAncestor !== el);
 
     const primaryMatch = el.closest && el.closest(
       'button.blue-button-class, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
@@ -910,7 +913,7 @@
 
     if (isEmptyState) {
       el.setAttribute('data-paw-bg', 'transparent');
-    } else if (isCodeEditorLayer || isDimensionOverview || isPrimaryBtn) {
+    } else if (isCodeEditorLayer || isDimensionOverview || isPrimaryBtn || isTreeItemChild) {
       if (el.hasAttribute('data-paw-bg')) {
         el.removeAttribute('data-paw-bg');
       }
@@ -1348,7 +1351,7 @@
       if (
         target.closest &&
         target.closest(
-          '.cm-editor, .monaco-editor, .ace_editor, .CodeMirror, .pa-empty-state-container, .flex-layout-empty-state, .pa--dimensionoverview, button.blue-button-class, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
+          '.cm-editor, .monaco-editor, .ace_editor, .CodeMirror, .pa-empty-state-container, .flex-layout-empty-state, .pa--dimensionoverview, .ba-common-treeItem, .ba-common-listItem, button.blue-button-class, .bx--btn--primary:not(.bx--btn--icon-only), .cds--btn--primary:not(.cds--btn--icon-only)'
         )
       ) {
         return;

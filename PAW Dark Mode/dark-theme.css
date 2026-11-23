@@ -637,7 +637,7 @@ html[data-paw-dark="true"] .cds--overflow-menu svg {
 }
 
 /* Evrensel Hover Beyazlama Koruması */
-html[data-paw-dark="true"] button:not(.cds--btn--primary):not(.bx--btn--primary):not(.blue-button-class):not(.flexlayout__tab_toolbar_button):not(:disabled):hover,
+html[data-paw-dark="true"] button:where(:not(.cds--btn--primary):not(.bx--btn--primary):not(.blue-button-class):not(.flexlayout__tab_toolbar_button):not(:disabled)):hover,
 html[data-paw-dark="true"] [role="button"]:not(.blue-button-class):hover,
 html[data-paw-dark="true"] [role="tab"]:hover,
 html[data-paw-dark="true"] [role="menuitem"]:hover,
@@ -1033,9 +1033,30 @@ html[data-paw-dark="true"] .monaco-editor .cursors-layer .cursor {
   border-color: #78a9ff !important;
 }
 
-/* 11. Kaydırma Çubukları: HTML kökündeki `color-scheme: dark` sayesinde Chrome/Edge
-   kaydırma çubukları doğal olarak koyu çizilir; PAW'ın gizli kaydırma alanlarını
-   bozmamak için özel kaydırma çubuğu genişlik veya renk geçersiz kılması uygulanmaz. */
+/* 11. Kaydırma Çubukları: Genel kaydırma çubukları `color-scheme: dark` ile doğal kalır;
+   gizli tablo kaydırma alanlarını bozmamak için yalnızca yan panel ve kod editöründe
+   yumuşak koyu kaydırma çubuğu uygulanır. */
+html[data-paw-dark="true"] .flyoutPane ::-webkit-scrollbar,
+html[data-paw-dark="true"] .cm-scroller::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html[data-paw-dark="true"] .flyoutPane ::-webkit-scrollbar-track,
+html[data-paw-dark="true"] .cm-scroller::-webkit-scrollbar-track {
+  background: var(--paw-bg-surface);
+}
+
+html[data-paw-dark="true"] .flyoutPane ::-webkit-scrollbar-thumb,
+html[data-paw-dark="true"] .cm-scroller::-webkit-scrollbar-thumb {
+  background: var(--paw-border-subtle);
+  border-radius: 4px;
+}
+
+html[data-paw-dark="true"] .flyoutPane ::-webkit-scrollbar-thumb:hover,
+html[data-paw-dark="true"] .cm-scroller::-webkit-scrollbar-thumb:hover {
+  background: var(--paw-border-strong);
+}
 
 /* ==========================================================================
    12. Canlı Doğrulanmış Legacy / Tokenize Edilmemiş PAW Yüzeyleri
@@ -1270,6 +1291,42 @@ html[data-paw-dark="true"] .ba-common-treeItem.is-selected,
 html[data-paw-dark="true"] .ba-common-listItem.is-selected {
   background-color: var(--paw-bg-selected) !important;
   color: #ffffff !important;
+}
+
+html[data-paw-dark="true"] .ba-common-treeItem:focus,
+html[data-paw-dark="true"] .ba-common-listItem:focus {
+  outline-color: var(--paw-accent) !important;
+}
+
+/* Ağaç satırı içi kapsayıcı ve üç-nokta butonları şeffaf kalsın; odak çerçevesini kesmesin */
+html[data-paw-dark="true"] .ba-common-treeItem > *,
+html[data-paw-dark="true"] .ba-common-treeItem div,
+html[data-paw-dark="true"] .ba-common-treeItem button,
+html[data-paw-dark="true"] .ba-common-treeItem .bx--btn,
+html[data-paw-dark="true"] .ba-common-treeItem .bx--overflow-menu,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem > *,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem button,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem .bx--overflow-menu {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"] .ba-common-treeItem button:not(:disabled):hover,
+html[data-paw-dark="true"] .ba-common-treeItem .bx--overflow-menu:hover,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem button:not(:disabled):hover,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem .bx--overflow-menu:hover {
+  background-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+html[data-paw-dark="true"] .ba-common-treeItem button,
+html[data-paw-dark="true"] .ba-common-treeItem button svg,
+html[data-paw-dark="true"] .ba-common-treeItem button svg use,
+html[data-paw-dark="true"] .ba-common-treeItem .bx--overflow-menu,
+html[data-paw-dark="true"] .ba-common-treeItem .bx--overflow-menu svg,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem button svg,
+html[data-paw-dark="true"] .ba-common-listItem.ba-common-treeItem .bx--overflow-menu svg {
+  color: var(--paw-text-primary) !important;
+  fill: var(--paw-text-primary) !important;
 }
 
 /* Boş Durum İllüstrasyonu (Siyah kutu / invert olmadan temel arka planla bütünleşik) */
