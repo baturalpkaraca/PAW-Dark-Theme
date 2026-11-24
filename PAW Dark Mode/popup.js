@@ -42,7 +42,7 @@
     currentSettings = { ...DEFAULT_SETTINGS, ...settings, palette: 'carbon' };
 
     enabledToggle.checked = Boolean(currentSettings.enabled);
-    statusBadge.textContent = currentSettings.enabled ? 'Aktif' : 'Pasif';
+    statusBadge.textContent = currentSettings.enabled ? 'Active' : 'Inactive';
     statusBadge.classList.toggle('active', Boolean(currentSettings.enabled));
     controlsArea.classList.toggle('disabled', !currentSettings.enabled);
 
@@ -91,13 +91,13 @@
       const tab = tabs && tabs[0];
 
       if (!tab || typeof tab.id !== 'number') {
-        showFeedback('Aktif sekme bulunamadı.', true);
+        showFeedback('Active tab not found.', true);
         return;
       }
 
       const url = tab.url || '';
       if (!url || /^(chrome|edge|about|chrome-extension):/i.test(url)) {
-        showFeedback('Bu tarayıcı sayfasına tema uygulanamaz.', true);
+        showFeedback('Theme cannot be applied to this browser page.', true);
         return;
       }
 
@@ -193,11 +193,11 @@
       sendSettingsToActiveTab(currentSettings);
       showFeedback(
         persisted
-          ? 'Tema uygulandı ve bu alan adı için kalıcı hale getirildi!'
-          : 'Koyu tema mevcut sekmeye uygulandı!'
+          ? 'Theme applied and saved for this domain!'
+          : 'Dark theme applied to the current tab!'
       );
     } catch (err) {
-      showFeedback(`Uygulama hatası: ${err && err.message ? err.message : 'Bilinmeyen hata'}`, true);
+      showFeedback(`Failed to apply theme: ${err && err.message ? err.message : 'Unknown error'}`, true);
     }
   }
 
@@ -220,7 +220,7 @@
 
   resetBtn.addEventListener('click', () => {
     saveAndBroadcast({ ...DEFAULT_SETTINGS });
-    showFeedback('Varsayılan ayarlara sıfırlandı.');
+    showFeedback('Settings reset to defaults.');
   });
 
   injectBtn.addEventListener('click', () => {

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "PAW Dark Mode - IBM Planning Analytics Koyu Tema",
+  "name": "PAW Dark Mode - IBM Planning Analytics Dark Theme",
   "version": "1.0.0",
-  "description": "IBM Planning Analytics Workspace (PAW) için göz yormayan tam siyah (Dark Mode) tema eklentisi.",
+  "description": "An eye-friendly IBM Carbon G100 dark theme extension for IBM Planning Analytics Workspace (PAW).",
   "permissions": [
     "storage",
     "activeTab",
@@ -26,7 +26,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "PAW Dark Mode Ayarları",
+    "default_title": "PAW Dark Mode Settings",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -40,8 +40,7 @@
         "*://*.planninganalytics.cloud.ibm.com/*",
         "*://*.planninganalytics.saas.ibm.com/*",
         "*://*.planning-analytics.saas.ibm.com/*",
-        "*://*.saas.ibm.com/*",
-        "*://koctasprod.planning-analytics.cloud.ibm.com/*"
+        "*://*.saas.ibm.com/*"
       ],
       "js": [
         "canvas-theme.js"
@@ -57,8 +56,7 @@
         "*://*.planninganalytics.cloud.ibm.com/*",
         "*://*.planninganalytics.saas.ibm.com/*",
         "*://*.planning-analytics.saas.ibm.com/*",
-        "*://*.saas.ibm.com/*",
-        "*://koctasprod.planning-analytics.cloud.ibm.com/*"
+        "*://*.saas.ibm.com/*"
       ],
       "css": [
         "dark-theme.css"

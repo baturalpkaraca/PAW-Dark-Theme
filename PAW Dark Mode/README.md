@@ -1,41 +1,45 @@
-# PAW Dark Mode — IBM Planning Analytics Workspace Koyu Tema Eklentisi
+# PAW Dark Mode — IBM Planning Analytics Workspace Dark Theme
 
-IBM Planning Analytics Workspace (`https://koctasprod.planning-analytics.cloud.ibm.com/` ve tüm `*.planning-analytics.cloud.ibm.com` adresleri) için beyaz ekran parlaklığını ortadan kaldıran, göz yormayan **Manifest V3** Chrome / Microsoft Edge koyu tema eklentisidir.
-
----
-
-## Özellikler
-
-- **Sıfır Beyaz Parlama (Anti-FOUC):** Sayfa ve iç çerçeveler (`iframe`) yüklenmeye başlarken anında koyu arka plan uygular.
-- **IBM Carbon G100 Koyu Paleti:** `#161616` zemin, yumuşatılmış `#e8e8e8` metin ile uzun çalışma saatlerinde maksimum göz konforu.
-- **Akıllı Koyu Tema + Yerel Carbon G100 & `<canvas>` Motoru:** PAW'ın yerleşik Carbon G100 tasarım tokenlarını (`--cds-*` / `--bx-*`) etkinleştirir; Küp / Boyut HTML5 `<canvas>` tablolarını yerel olarak yeniden boyar; Cube Viewer, Set Editor, Dimension / Attribute, CodeMirror 6 TI Script / Cube Rules ve dinamik stiller dahil tüm açık zeminleri otomatik koyulaştırır (koşullu biçimlendirme ve orijinal yerleşim ölçülerini korur).
-- **Göz Konforu Ayarları:** Parlaklık (`%70 - %110`), Kontrast (`%80 - %120`) ve Mavi Işık Filtresi (`%0 - %40`) sürgüleri ile anlık ince ayar.
-- **Özel Adres Desteği:** Eklenti penceresindeki **"Mevcut Sekmeye Uygula"** butonu ile farklı bir kurum içi PAW adresinde bile tek tıkla aktif edilebilir.
+An eye-friendly **Manifest V3** Chrome / Microsoft Edge dark theme extension for **IBM Planning Analytics Workspace (PAW)** across IBM Cloud, SaaS (`*.planning-analytics.cloud.ibm.com`, `*.planninganalytics.cloud.ibm.com`, `*.planninganalytics.saas.ibm.com`, `*.planning-analytics.saas.ibm.com`, `*.saas.ibm.com`), and custom on-premises / enterprise environments.
 
 ---
 
-## Kurulum (Google Chrome & Microsoft Edge)
+## Features
 
-1. Tarayıcınızda uzantılar sayfasını açın:
-   - **Google Chrome:** Adres çubuğuna `chrome://extensions` yazıp `Enter` tuşuna basın.
-   - **Microsoft Edge:** Adres çubuğuna `edge://extensions` yazıp `Enter` tuşuna basın.
-2. Sağ üstten (Edge'de sol alttan) **Geliştirici modu (Developer mode)** anahtarını **Açık** konuma getirin.
-3. **Paketlenmemiş öğe yükle (Load unpacked)** butonuna tıklayın.
-4. Bu klasörü (`PAW Dark Mode`) seçin ve onaylayın.
-5. `https://koctasprod.planning-analytics.cloud.ibm.com/` sayfasını açın veya yenileyin — koyu tema otomatik aktif olacaktır.
-
----
-
-## Kullanım İpuçları
-
-- Tarayıcı araç çubuğundaki **PAW Dark Mode** ikonuna tıklayarak palet ve göz konforu ayarlarını sayfayı yenilemeden anlık değiştirebilirsiniz.
-- Uzun çalışma saatlerinde **Mavi Işık Filtresi (Sıcaklık)** ayarını `%15 - %25` aralığına çekmek göz yorgunluğunu daha da azaltır.
+- **Zero White Flash (Anti-FOUC):** Applies the dark background immediately on initial load (`document_start`) across the main page and nested `iframe` views.
+- **IBM Carbon G100 Palette:** Built on soft Carbon dark surfaces (`#161616` background, `#1c1c1c`–`#262626` layers, `#e8e8e8` primary text) aligned with IBM Planning Analytics Workspace's design language.
+- **Smart Dark Theme + Native Carbon G100 & HTML5 `<canvas>` Engine:**
+  - Activates PAW's native `.carbon-theme-g100` design tokens (`--cds-*` / `--bx-*`).
+  - Natively re-renders Cube Viewer and Dimension Editor HTML5 `<canvas>` grids with distinct contrast for consolidated (C-level), writable (N-level), read-only, and conditional cells.
+  - Themes CodeMirror 6 (TI Process & Cube Rules editors, including `Ctrl+F` search/replace panels), Monaco/Ace fallbacks, Home tiles, Administration pages, and dynamic stylesheets while preserving the original layout geometry.
+- **Eye Comfort Settings:** Instant fine-tuning sliders for **Brightness** (`70%–110%`), **Contrast** (`80%–120%`), and **Blue Light Filter (Warmth)** (`0%–40%`).
+- **Custom Domain Support:** Click **"Apply to Current Tab"** in the extension popup to activate and persist the dark theme on custom internal or on-premises PAW hostnames.
 
 ---
 
-## Opsiyonel: PAW Yönetici (Admin) Yerleşik Kabuk Teması
+## Installation (Google Chrome & Microsoft Edge)
 
-Eğer Planning Analytics Workspace üzerinde **Administrator** yetkiniz varsa, eklentiye ek olarak üst ve yan menü kabuğunu sunucu tarafında da koyulaştırmak için `paw-admin-theme/paw-dark-theme.zip` paketini kullanabilirsiniz:
+1. Open the browser extensions page:
+   - **Google Chrome:** Navigate to `chrome://extensions`
+   - **Microsoft Edge:** Navigate to `edge://extensions`
+2. Enable **Developer mode** (top-right in Chrome, bottom-left in Edge).
+3. Click **Load unpacked**.
+4. Select this folder (`PAW Dark Mode`).
+5. Open or reload your **IBM Planning Analytics Workspace** tab (`https://<your-tenant>.planning-analytics.cloud.ibm.com/`) — the dark theme activates automatically.
 
-1. PAW içinde **Administration > Excel and Customizations > Themes** bölümüne gidin.
-2. `paw-admin-theme/paw-dark-theme.zip` dosyasını yükleyin ve aktif tema olarak seçin.
+---
+
+## Usage Tips
+
+- Click the **PAW Dark Mode** toolbar icon to toggle the theme or adjust Brightness, Contrast, and Blue Light Filter sliders live without reloading the page.
+- For long modeling sessions, setting **Blue Light Filter (Warmth)** to `15%–25%` further reduces eye strain.
+- If your workspace runs on a custom hostname that is not auto-matched, open the extension popup on that tab and click **Apply to Current Tab**.
+
+---
+
+## Optional: Built-in PAW Administrator Shell Theme
+
+If you have **Administrator** permissions in Planning Analytics Workspace, you can optionally upload `paw-admin-theme/paw-dark-theme.zip` to apply dark shell colors server-side as well:
+
+1. Go to **Administration > Customization > Themes** (or **Excel and Customizations > Themes**) in PAW.
+2. Upload `paw-admin-theme/paw-dark-theme.zip` and set it as the active theme.

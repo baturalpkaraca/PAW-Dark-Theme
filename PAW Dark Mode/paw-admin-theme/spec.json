@@ -1,17 +1,17 @@
 {
   "schemaVersion": "3.0",
-  "name": "paw-oled-dark-theme",
-  "brandText": "Planning Analytics Workspace (Koyu Tema)",
+  "name": "paw-carbon-dark-theme",
+  "brandText": "Planning Analytics Workspace (Dark Mode)",
   "uiShellTheme": "dark",
   "colors": {
-    "appbarBackground": "#0a0a0a",
-    "appbarForeground": "#f4f4f4",
+    "appbarBackground": "#161616",
+    "appbarForeground": "#e8e8e8",
     "appbarSelectLine": "#4589ff",
-    "appbarPushButtonBackground": "#1a1a1a",
-    "navbarBackground": "#121212",
+    "appbarPushButtonBackground": "#262626",
+    "navbarBackground": "#1c1c1c",
     "navbarForeground": "#e8e8e8",
     "navbarSelectLine": "#4589ff",
-    "navbarPushButtonBackground": "#242424",
+    "navbarPushButtonBackground": "#2e2e2e",
     "personalMenuBackground": "inherit"
   }
 }

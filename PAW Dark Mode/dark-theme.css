@@ -998,6 +998,97 @@ html[data-paw-dark="true"] .cm-editor.cm-focused .cm-cursor {
   border-left: 2px solid #78a9ff !important;
 }
 
+/* CodeMirror 6 Arama / Değiştirme (Ctrl+F) Paneli ve Otomatik Tamamlama */
+html[data-paw-dark="true"] .cm-editor .cm-panels,
+html[data-paw-dark="true"] .cm-editor .cm-panels-top,
+html[data-paw-dark="true"] .cm-editor .cm-panels-bottom,
+html[data-paw-dark="true"] .cm-editor .cm-panel,
+html[data-paw-dark="true"] .cm-editor .cm-panel.cm-search {
+  background-color: var(--paw-bg-surface) !important;
+  color: var(--paw-text-primary) !important;
+  border-color: var(--paw-border-subtle) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel .cm-textfield,
+html[data-paw-dark="true"] .cm-editor .cm-search .cm-textfield {
+  background-color: var(--paw-bg-field) !important;
+  color: var(--paw-text-primary) !important;
+  border: 1px solid var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel .cm-textfield:focus,
+html[data-paw-dark="true"] .cm-editor .cm-search .cm-textfield:focus {
+  border-color: var(--paw-accent) !important;
+  outline: none !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel .cm-button,
+html[data-paw-dark="true"] .cm-editor .cm-search .cm-button,
+html[data-paw-dark="true"] .cm-panel button.cm-button {
+  background-image: none !important;
+  background-color: var(--paw-bg-elevated) !important;
+  color: var(--paw-text-primary) !important;
+  border: 1px solid var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel .cm-button:hover,
+html[data-paw-dark="true"] .cm-editor .cm-search .cm-button:hover,
+html[data-paw-dark="true"] .cm-panel button.cm-button:hover {
+  background-image: none !important;
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+  border-color: var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel .cm-button:active,
+html[data-paw-dark="true"] .cm-editor .cm-search .cm-button:active,
+html[data-paw-dark="true"] .cm-panel button.cm-button:active {
+  background-image: none !important;
+  background-color: var(--paw-bg-active) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel button[name="close"],
+html[data-paw-dark="true"] .cm-editor .cm-search button[name="close"] {
+  background-image: none !important;
+  background-color: transparent !important;
+  color: var(--paw-text-secondary) !important;
+  border-color: transparent !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel button[name="close"]:hover,
+html[data-paw-dark="true"] .cm-editor .cm-search button[name="close"]:hover {
+  background-color: var(--paw-bg-hover) !important;
+  color: #ffffff !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-panel label,
+html[data-paw-dark="true"] .cm-editor .cm-search label {
+  color: var(--paw-text-secondary) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-searchMatch {
+  background-color: rgba(241, 194, 27, 0.28) !important;
+  outline: 1px solid rgba(241, 194, 27, 0.55) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-searchMatch-selected {
+  background-color: rgba(69, 137, 255, 0.45) !important;
+  outline: 1px solid var(--paw-accent) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-tooltip,
+html[data-paw-dark="true"] .cm-editor .cm-tooltip-autocomplete {
+  background-color: var(--paw-bg-elevated) !important;
+  color: var(--paw-text-primary) !important;
+  border: 1px solid var(--paw-border-strong) !important;
+}
+
+html[data-paw-dark="true"] .cm-editor .cm-tooltip-autocomplete > ul > li[aria-selected] {
+  background-color: var(--paw-bg-selected) !important;
+  color: #ffffff !important;
+}
+
 /* Monaco & Ace / CodeMirror 5 Yedekleri */
 html[data-paw-dark="true"] .monaco-editor,
 html[data-paw-dark="true"] .monaco-editor-background,

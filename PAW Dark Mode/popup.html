@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAW Dark Mode Ayarları</title>
+  <title>PAW Dark Mode Settings</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -24,8 +24,8 @@
       </div>
 
       <div class="header-actions">
-        <span id="statusBadge" class="status-badge active">Aktif</span>
-        <label class="switch" title="Koyu Temayı Aç / Kapat">
+        <span id="statusBadge" class="status-badge active">Active</span>
+        <label class="switch" title="Toggle Dark Mode">
           <input type="checkbox" id="enabledToggle" checked>
           <span class="slider"></span>
         </label>
@@ -33,13 +33,13 @@
     </header>
 
     <main id="controlsArea" class="controls">
-      <!-- Göz Konforu Ayarları -->
+      <!-- Eye Comfort Settings -->
       <section class="section">
-        <h2 class="section-title">Göz Konforu Ayarları</h2>
+        <h2 class="section-title">Eye Comfort Settings</h2>
 
         <div class="range-group">
           <div class="range-header">
-            <label for="brightnessRange">Parlaklık</label>
+            <label for="brightnessRange">Brightness</label>
             <span id="brightnessVal" class="range-value">100%</span>
           </div>
           <input type="range" id="brightnessRange" min="70" max="110" step="1" value="100">
@@ -47,7 +47,7 @@
 
         <div class="range-group">
           <div class="range-header">
-            <label for="contrastRange">Kontrast</label>
+            <label for="contrastRange">Contrast</label>
             <span id="contrastVal" class="range-value">100%</span>
           </div>
           <input type="range" id="contrastRange" min="80" max="120" step="1" value="100">
@@ -55,7 +55,7 @@
 
         <div class="range-group">
           <div class="range-header">
-            <label for="warmthRange">Mavi Işık Filtresi (Sıcaklık)</label>
+            <label for="warmthRange">Blue Light Filter (Warmth)</label>
             <span id="warmthVal" class="range-value">0%</span>
           </div>
           <input type="range" id="warmthRange" min="0" max="40" step="1" value="0">
@@ -65,8 +65,8 @@
 
     <footer class="footer">
       <div class="footer-buttons">
-        <button type="button" id="resetBtn" class="btn btn-secondary">Varsayılanlara Sıfırla</button>
-        <button type="button" id="injectBtn" class="btn btn-primary">Mevcut Sekmeye Uygula</button>
+        <button type="button" id="resetBtn" class="btn btn-secondary">Reset to Defaults</button>
+        <button type="button" id="injectBtn" class="btn btn-primary">Apply to Current Tab</button>
       </div>
       <div id="feedbackMsg" class="feedback-msg" role="status" aria-live="polite"></div>
     </footer>
